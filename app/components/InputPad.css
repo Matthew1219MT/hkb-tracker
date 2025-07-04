@@ -1,0 +1,64 @@
+.inputpad-container {
+    height: 50%;
+    margin: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.inputpad-num-container {
+    width: 75%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.foundation-num-0 {
+    grid-column: 1 / span 3;
+}
+
+.inputpad-chr-container {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.inputpad-chr {
+    min-height: calc(25% - 10px);
+    overflow: hidden;
+}
+
+.inputpad-button {
+    background-color: rgb(255, 164, 79);
+    margin: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.inputpad-button:hover {
+
+}
+
+/* width */
+::-webkit-scrollbar {
+width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+box-shadow: transparent; 
+border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: black; 
+border-radius: 12px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: grey; 
+}

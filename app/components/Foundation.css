@@ -1,0 +1,24 @@
+.foundation-containter {
+    height: 100vh;
+    aspect-ratio: 9 / 16;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.foundation-section-1 {
+    height: 5%;
+    margin: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.foundation-section-2 {
+    height: 45%;
+    margin: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
