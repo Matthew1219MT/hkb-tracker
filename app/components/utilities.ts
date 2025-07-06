@@ -1,0 +1,1 @@
+export const BaseUrl: string = "https://data.etabus.gov.hk/";

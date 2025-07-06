@@ -38,7 +38,11 @@
 }
 
 .inputpad-button:hover {
+    background-color: rgb(255, 205, 158);
+}
 
+.inputpad-button:disabled {
+    background-color: grey;
 }
 
 /* width */
