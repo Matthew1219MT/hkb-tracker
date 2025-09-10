@@ -48,7 +48,7 @@ const InputPad: React.FC<props> = ({availableChr, updateInput}) => {
         <div className="inputpad-chr-container">
             {availableChr.map((value, index) => {
                 if (isNaN(Number(value))) {
-                    return <button className='inputpad-button inputpad-chr' key={"chr" + index}>{value}</button>
+                    return <button className='inputpad-button inputpad-chr' key={"chr" + index} onClick={()=>{onClickHandler(value)}}>{value}</button>
                 }
             })}
         </div>
