@@ -1,24 +1,28 @@
-.foundation-containter {
+.foundation-container {
+    position: relative;
     height: 100vh;
-    aspect-ratio: 9 / 16;
     background-color: white;
     margin-left: auto;
     margin-right: auto;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
 }
 
-.foundation-section-1 {
-    height: 5%;
-    margin: 5px;
-    border: 1px solid black;
-    border-radius: 5px;
+.foundation-stop-search {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  opacity: 0;
+  transform: translateY(20%);         /* start slightly off-screen */
+  transition: 0.4s ease;
+  width: 100vw !important;
+  background-color: white;
 }
 
-.foundation-section-2 {
-    height: 45%;
-    margin: 5px;
-    border: 1px solid black;
-    border-radius: 5px;
+/* --- Active (visible) state --- */
+.foundation-stop-search.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
-

@@ -1,0 +1,34 @@
+.stop-searcher-container {   
+    display: flex;
+    flex-direction: column;  
+    width: 100%;
+}
+
+.stop-searcher-section-1 {
+    height: 5vh;
+    margin: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.stop-searcher-exit-btn {
+    height: 100%;
+    width: 100px;
+    background-color: orange;
+    color: white;
+}
+
+.stop-searcher-search-number {
+
+}
+
+.stop-searcher-section-2 {
+    max-height: 45vh;
+    margin: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    overflow: scroll;
+}
+
