@@ -18,6 +18,8 @@ const StopSearcher: React.FC<props> = ({ setSearch }) => {
 
     const [inputRoute, setInputRoute] = useState<string>("");
 
+    const [selectedRoute, setSelectedRoute] = useState<Route>();
+
     const [routeList, setRouteList] = useState<Route[]>([]);
 
     const [stopList, setStopList] = useState<Stop[]>([]);
@@ -91,6 +93,7 @@ const StopSearcher: React.FC<props> = ({ setSearch }) => {
 
     const getStopList = async (route: Route) => {
         setGettingStopList(true);
+        setSelectedRoute(route);
         const route_name: string = route.route;
         const route_direction: string = route.bound === "I" ? "inbound" : "outbound";
         const route_service_type: string = route.service_type;
@@ -151,7 +154,7 @@ const StopSearcher: React.FC<props> = ({ setSearch }) => {
 
     return <div className="stop-searcher-container">
     {
-        stopList.length > 0 ? <StopDisplay stopList={stopList} setStopList={setStopList}/> :
+        stopList.length > 0 ? <>{selectedRoute && <StopDisplay stopList={stopList} setStopList={setStopList} selectedRoute={selectedRoute}/>}</> :
         <div><div className="stop-searcher-section-1">
             <button className="stop-searcher-exit-btn" onClick={() => setSearch(false)}>Return</button>
             <div className="stop-searcher-search-number">{inputRoute}</div>

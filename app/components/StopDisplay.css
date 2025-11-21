@@ -1,0 +1,23 @@
+.stop-display-btn {
+    width: 100px;
+    background-color: orange;
+    color: white;
+}
+
+.stop-display-stop-btn {
+    background-color: white;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.stop-display-stop-btn:hover {
+    background-color: lightgrey;
+}
+
+.stop-display-stop-btn:disabled {
+    background-color: grey;
+    color: darkgrey;
+}
