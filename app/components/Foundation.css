@@ -20,6 +20,12 @@
   background-color: white;
 }
 
+.foundation-search-btn {
+  width: 100px;
+  background-color: orange;
+  color: white;
+}
+
 /* --- Active (visible) state --- */
 .foundation-stop-search.active {
   opacity: 1;

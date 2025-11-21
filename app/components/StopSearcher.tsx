@@ -3,40 +3,44 @@ import { useEffect, useState } from 'react';
 import React from "react";
 import './StopSearcher.css';
 import InputPad from './InputPad';
-import { Route } from './types';
+import { Route, Stop, RouteStop } from './types';
+import StopDisplay from './StopDisplay';
 
 type props = {
     setSearch: React.Dispatch<React.SetStateAction<boolean>>
-}
+};
 
-const StopSearcher: React.FC<props> = ({setSearch}) => {
+const StopSearcher: React.FC<props> = ({ setSearch }) => {
 
     const BaseUrl: string = "https://data.etabus.gov.hk/";
 
+    const [gettingStopList, setGettingStopList] = useState<boolean>(false);
+
     const [inputRoute, setInputRoute] = useState<string>("");
 
-    const [routeList, setRouteList] = useState<string[]>([]);
+    const [routeList, setRouteList] = useState<Route[]>([]);
 
-    const [availableRoute, setAvailableRoute] = useState<string[]>([]);
+    const [stopList, setStopList] = useState<Stop[]>([]);
+
+    const [availableRoute, setAvailableRoute] = useState<Route[]>([]);
 
     const [availableChr, setAvailableChr] = useState<string[]>([]);
 
     const updateAvailableRouteAndChr = (input_route: string) => {
-        console.log(`Input Route ${input_route}`);
-        const available_route: string[] = [];
+        const available_route: Route[] = [];
         const available_chr: string[] = [];
         const input_route_length: number = input_route.length;
-        routeList.forEach((route, index) => {
+        routeList.forEach((route_info, index) => {
+            const route: string = route_info.route;
             if (input_route_length <= route.length) {
-                //console.log(route, input_route_length-1);
                 const sub_string: string = route.substring(0, input_route_length);
-                //console.log(sub_string, input_route)
                 if (sub_string === input_route) {
-                    available_route.push(route);
+                    available_route.push(route_info);
                 }
             }
         })
-        available_route.forEach((route, index) => {
+        available_route.forEach((route_info, index) => {
+            const route: string = route_info.route;
             if (route.length > input_route_length) {
                 if (!(available_chr.includes(route[input_route_length]))) {
                     available_chr.push(route[input_route_length]);
@@ -55,7 +59,7 @@ const StopSearcher: React.FC<props> = ({setSearch}) => {
             if (index === 0) {
                 unique_route_list.push(route.route);
             } else {
-                if (route.route !== unique_route_list[unique_route_list.length-1]) {
+                if (route.route !== unique_route_list[unique_route_list.length - 1]) {
                     unique_route_list.push(route.route);
                 }
             }
@@ -63,31 +67,75 @@ const StopSearcher: React.FC<props> = ({setSearch}) => {
         return unique_route_list;
     }
 
-    const getRouteList = async () =>{
+    const getRouteList = async () => {
         const route_list_url: string = BaseUrl + "v1/transport/kmb/route/";
-        fetch(route_list_url, {method: "get"})
+        fetch(route_list_url, { method: "get" })
+            .then((response) => {
+                if (!response.ok) {
+                    console.log("Failed to fetch");
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                const route_list: Route[] = data.data;
+                const unique_route_list: string[] = getAvailableRouteAndChr(route_list);
+                setRouteList(route_list);
+            })
+            .catch((e) => {
+                console.log(e);
+                setRouteList([]);
+                setAvailableRoute([]);
+                setAvailableChr([]);
+            })
+    }
+
+    const getStopList = async (route: Route) => {
+        setGettingStopList(true);
+        const route_name: string = route.route;
+        const route_direction: string = route.bound === "I" ? "inbound" : "outbound";
+        const route_service_type: string = route.service_type;
+        const stop_list_url: string = `${BaseUrl}v1/transport/kmb/route-stop/${route_name}/${route_direction}/${route_service_type}`;
+        fetch(stop_list_url, { method: "get" })
         .then((response) => {
             if (!response.ok) {
                 console.log("Failed to fetch");
             }
             return response.json();
         })
-        .then((data: any)=>{
-            const route_list: Route[] = data.data;
-            console.log(route_list);
-            const unique_route_list: string[] = getAvailableRouteAndChr(route_list);
-            console.log(unique_route_list);
-            setRouteList(unique_route_list);
+        .then((data: any) => {
+            const rout_stop_list: RouteStop[] = data.data;
+            const stop_list: Stop[] = [];
+            let promises: Promise<Response>[] = [];
+            rout_stop_list.forEach((stop: RouteStop) => {
+                const id = stop.stop;
+                const stop_url: string = `${BaseUrl}v1/transport/kmb/stop/${id}`;
+                promises.push(fetch(stop_url, { method: "get" }));
+            });
+            Promise.all(promises)
+                .then((responses) => {
+                    responses.forEach((response) => {
+                        if (!response.ok) {
+                            console.error("Failed to fetch");
+                        } else {
+                            response.json().then((data: any) => {
+                                const stop_info: Stop = data.data;
+                                stop_list.push(stop_info);
+                                setStopList(stop_list);
+                            });
+                        }
+                    })
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+            console.log(stop_list);
         })
         .catch((e) => {
             console.log(e);
-            setRouteList([]);
-            setAvailableRoute([]);
-            setAvailableChr([]);
-        })
+        });
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         getRouteList();
     }, []);
 
@@ -95,18 +143,27 @@ const StopSearcher: React.FC<props> = ({setSearch}) => {
         updateAvailableRouteAndChr(inputRoute);
     }, [routeList, inputRoute])
 
+    useEffect(() => {
+        if (stopList.length === 0 ) {
+            setGettingStopList(false);
+        }
+    }, [stopList]);
+
     return <div className="stop-searcher-container">
-        <div className="stop-searcher-section-1">
-            <button className="stop-searcher-exit-btn" onClick={()=>setSearch(false)}>Return</button>
+    {
+        stopList.length > 0 ? <StopDisplay stopList={stopList} setStopList={setStopList}/> :
+        <div><div className="stop-searcher-section-1">
+            <button className="stop-searcher-exit-btn" onClick={() => setSearch(false)}>Return</button>
             <div className="stop-searcher-search-number">{inputRoute}</div>
         </div>
-        <div className="stop-searcher-section-2">
-            {availableRoute.length > 0 && availableRoute.map((route, index) => {
-                return <div style={{width: "100%"}} key={index}>{route}</div>
-            })}
+            <div className="stop-searcher-section-2">
+                {availableRoute.length > 0 && availableRoute.map((route, index) => {
+                    return <button className="stop-searcher-route-btn" style={{ width: "100%" }} key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>{route.route} | {route.dest_tc}</button>
+                })}
+            </div>
+            <InputPad availableChr={availableChr} updateInput={setInputRoute} />
         </div>
-        <InputPad availableChr={availableChr} updateInput={setInputRoute}/>
-    </div>
+    }</div>;
 }
 
 export default StopSearcher;
