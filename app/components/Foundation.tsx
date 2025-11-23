@@ -8,7 +8,9 @@ const Foundation = () => {
     const [search, setSearch] = useState<boolean>(false);
 
     return <div className="foundation-container">
-        <button onClick={() => setSearch(true)} className="foundation-search-btn">Search</button>
+        <div className="foundation-center">
+            <button onClick={() => setSearch(true)} className="foundation-search-btn">Search</button>
+        </div>
         <div className={`foundation-stop-search ${search ? "active" : ""}`}>
             <StopSearcher setSearch={setSearch}/>
         </div>
