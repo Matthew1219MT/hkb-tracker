@@ -72,8 +72,8 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         <div className="stop-display-container">
             <button className="stop-display-btn" onClick={() => setStopList([])}>Return</button>
             {stopList.map((stop, index) => (
-                <div>
-                    <div key={index} className="stop-display-stop-btn" onClick={() => {setStopListener(stop.stop)}}>
+                <div key={index}>
+                    <div className="stop-display-stop-btn" onClick={() => {setStopListener(stop.stop)}}>
                         {removeBracketed(stop.name_tc)}
                         <button className="stop-display-stop-add-btn" onClick={()=>{addStopListener(stop.stop)}}>+</button>
                     </div>
