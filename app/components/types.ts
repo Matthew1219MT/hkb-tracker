@@ -47,3 +47,9 @@ export type StopETA = {
     rmk_sc: string,
     data_timestamp: string
 }
+
+export type LocalStorageStop = {
+    stop: string,
+    route: string,
+    service_type: string,
+}

@@ -2,7 +2,7 @@
 import { Route, Stop, StopETA } from "./types";
 import "./StopDisplay.css";
 import React, { useEffect, useState } from "react";
-import { BaseUrl, removeBracketed } from "./utilities";
+import { addStop, BaseUrl, getStopETA, removeBracketed } from "./utilities";
 import { ETALoading } from "./LoadData";
 
 type props = {
@@ -28,16 +28,26 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         return diffMinutes;
     }
 
-    const getStopETA = async (route: string, service_type: string, selected_stop: string) => {
-        const url: string = `${BaseUrl}v1/transport/kmb/eta/${selected_stop}/${route}/${service_type}`;
-        const response = await fetch(url, { method: "get" });
-        if (!response.ok) {
-            console.log("Failed to fetch");
-            return [];
+    const setStopListener = (stop: string) => {
+        if (stop === selectedStop) {
+            setSelectedStop("");
         } else {
-            const data = await response.json();
-            const eta_list: StopETA[] = data.data;
-            return eta_list;
+            setSelectedStop(stop);
+        }
+    }
+
+    const addStopListener = (stop: string) => {
+        console.log(selectedRoute.route, selectedRoute.service_type, stop);
+        const new_stop = {
+            stop: stop,
+            route: selectedRoute.route,
+            service_type: selectedRoute.service_type
+        };
+        const result: boolean = addStop(new_stop);
+        if (result) {
+            console.log("Stop successfully added");
+        } else {
+            console.log("Duplicate stop");
         }
     }
 
@@ -70,10 +80,13 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         <div className="stop-display-container">
             <button className="stop-display-btn" onClick={() => setStopList([])}>Return</button>
             {stopList.map((stop, index) => (
-                <div key={index} className="stop-display-stop-btn" onClick={() => {setSelectedStop(stop.stop)}}>
-                    {removeBracketed(stop.name_tc)}
+                <div>
+                    <div key={index} className="stop-display-stop-btn" onClick={() => {setStopListener(stop.stop)}}>
+                        {removeBracketed(stop.name_tc)}
+                        <button className="stop-display-stop-add-btn" onClick={()=>{addStopListener(stop.stop)}}>+</button>
+                    </div>
                     {stop.stop === selectedStop && stopETA.length > 0 && stopETA.map((ETA, i) => {
-                        return <div key={i}>{ETA.rmk_tc}: {diffInMinutesFromNow(ETA.eta)}</div>
+                            return <div key={i} className="stop-display-stop-ETA">{diffInMinutesFromNow(ETA.eta)}</div>
                     })}
                 </div>
             ))}

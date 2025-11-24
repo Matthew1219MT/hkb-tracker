@@ -5,19 +5,34 @@
 }
 
 .stop-display-stop-btn {
+    display: flex;
     background-color: white;
     text-align: left;
     padding-left: 10px;
     padding-right: 10px;
     overflow: hidden;
     width: 100%;
+    justify-content: space-between;
+    min-height: 20px;
 }
 
 .stop-display-stop-btn:hover {
     background-color: lightgrey;
 }
 
+.stop-display-stop-add-btn {
+    background-color: black;
+    color: white;
+    min-height: 20px;
+    min-width: 20px;
+}
+
 .stop-display-stop-btn:disabled {
     background-color: grey;
     color: darkgrey;
+}
+
+.stop-display-stop-ETA {
+    padding-left: 20px;
+    padding-right: 20px;
 }
