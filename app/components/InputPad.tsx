@@ -17,7 +17,6 @@ const InputPad: React.FC<props> = ({availableChr, updateInput}) => {
     }
 
     const clearHandler = () => {
-        console.log("Clear");
         updateInput("");
     }
 

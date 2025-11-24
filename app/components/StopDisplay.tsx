@@ -2,8 +2,9 @@
 import { Route, Stop, StopETA } from "./types";
 import "./StopDisplay.css";
 import React, { useEffect, useState } from "react";
-import { addStop, BaseUrl, getStopETA, removeBracketed } from "./utilities";
+import { diffInMinutesFromNow, getStopETA, removeBracketed } from "./utilities";
 import { ETALoading } from "./LoadData";
+import { useStop } from "./context/stopContext";
 
 type props = {
     stopList: Stop[]
@@ -17,16 +18,7 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
 
     const [stopETA, setStopETA] = useState<StopETA[]>([]);
 
-    const diffInMinutesFromNow = (isoString: string): string | number => {
-        if (isoString === "Loading...") {
-            return isoString;
-        }
-        const future = new Date(isoString);
-        const now = new Date();
-        const diffMs = future.getTime() - now.getTime();
-        const diffMinutes = Math.max(0, Math.ceil(diffMs / 60000));
-        return diffMinutes;
-    }
+    const { addStop } = useStop();
 
     const setStopListener = (stop: string) => {
         if (stop === selectedStop) {
@@ -37,7 +29,7 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
     }
 
     const addStopListener = (stop: string) => {
-        console.log(selectedRoute.route, selectedRoute.service_type, stop);
+        //console.log(selectedRoute.route, selectedRoute.service_type, stop);
         const new_stop = {
             stop: stop,
             route: selectedRoute.route,

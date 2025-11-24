@@ -49,7 +49,7 @@ const StopSearcher: React.FC<props> = ({ setSearch }) => {
                 }
             }
         })
-        console.log(available_route, available_chr);
+        //console.log(available_route, available_chr);
         setAvailableRoute(available_route);
         setAvailableChr(available_chr);
     }
@@ -131,7 +131,7 @@ const StopSearcher: React.FC<props> = ({ setSearch }) => {
                 .catch((e) => {
                     console.log(e);
                 });
-            console.log(stop_list);
+            //console.log(stop_list);
         })
         .catch((e) => {
             console.log(e);

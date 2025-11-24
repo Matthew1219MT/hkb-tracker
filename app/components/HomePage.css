@@ -1,0 +1,43 @@
+.homepage-container {
+    position: relative;
+    height: 100vh;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+
+.homepage-stop-search {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  opacity: 0;
+  transform: translateY(20%);         /* start slightly off-screen */
+  transition: 0.4s ease;
+  width: 100vw !important;
+  background-color: white;
+}
+
+.homepage-center{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.homepage-search-btn {
+  width: 100px;
+  background-color: orange;
+  color: white;
+}
+
+/* --- Active (visible) state --- */
+.homepage-stop-search.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
