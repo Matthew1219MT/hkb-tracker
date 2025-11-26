@@ -15,7 +15,8 @@ export const SingleETA: StopETA = {
     "route": "2A",
     "seq": 10,
     "service_type": "1",
-    "stop": "000001"
+    "stop": "000001",
+    "stop_name": "Loading..."
 }
 
 export const ETALoading: StopETA[] = [
@@ -34,7 +35,8 @@ export const ETALoading: StopETA[] = [
         "route": "2A",
         "seq": 10,
         "service_type": "1",
-        "stop": "000001"
+        "stop": "000001",
+        "stop_name": "Loading..."
     },
     {
         "co": "KMB",
@@ -51,7 +53,8 @@ export const ETALoading: StopETA[] = [
         "route": "2A",
         "seq": 10,
         "service_type": "1",
-        "stop": "000001"
+        "stop": "000001",
+        "stop_name": "Loading..."
     },
     {
         "co": "KMB",
@@ -68,6 +71,7 @@ export const ETALoading: StopETA[] = [
         "route": "2A",
         "seq": 10,
         "service_type": "1",
-        "stop": "000001"
+        "stop": "000001",
+        "stop_name": "Loading..."
     }
 ]
