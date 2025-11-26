@@ -14,7 +14,7 @@ export const StopProvider: React.FC<{children: ReactNode}> = ({children}) => {
     const [stopList, setStopList] = useState<LocalStorageStop[]>([]);
 
     useEffect(() => {
-        const stored_stops = localStorage.getItem("stopList") ?? "[]";
+        const stored_stops = localStorage.getItem("stopList") || "[]";
         const stop_list: LocalStorageStop[] = JSON.parse(stored_stops);
         setStopList(stop_list);
     }, []);
@@ -27,9 +27,9 @@ export const StopProvider: React.FC<{children: ReactNode}> = ({children}) => {
         const exist = stopList.some((stop) => 
             stop.stop === add_stop.stop && 
             stop.route === add_stop.route && 
-            stop.service_type === add_stop.service_type
+            stop.service_type === add_stop.service_type &&
+            stop.stop_name === add_stop.stop_name
         );
-        
         if (exist) {
             return false;
         } else {

@@ -18,8 +18,8 @@ export const diffInMinutesFromNow = (isoString: string): string | number => {
     return diffMinutes;
 }
 
-export const getStopETA = async (route: string, service_type: string, selected_stop: string) => {
-    const url: string = `${BaseUrl}v1/transport/kmb/eta/${selected_stop}/${route}/${service_type}`;
+export const getStopETA = async (stop: LocalStorageStop) => {
+    const url: string = `${BaseUrl}v1/transport/kmb/eta/${stop.stop}/${stop.route}/${stop.service_type}`;
     const response = await fetch(url, { method: "get" });
     if (!response.ok) {
         console.log("Failed to fetch");
@@ -27,6 +27,10 @@ export const getStopETA = async (route: string, service_type: string, selected_s
     } else {
         const data = await response.json();
         const eta_list: StopETA[] = data.data;
+        eta_list.forEach((stop_eta)=>{
+            stop_eta.stop = stop.stop;
+            stop_eta.stop_name = stop.stop_name;
+        });
         return eta_list;
     }
 }

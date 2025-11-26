@@ -1,22 +1,85 @@
 .homepage-container {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
     height: 100vh;
-    background-color: white;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
+    overflow: hidden !important;
 }
 
-.homepage-stop-search {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  pointer-events: none;
+.homepage-stop {
   display: flex;
-  opacity: 0;
-  transform: translateY(20%);         /* start slightly off-screen */
-  transition: 0.4s ease;
-  width: 100vw !important;
+  justify-content: space-between;
+  width:98vw;
+  text-align: left;
+  overflow: hidden;
+  padding-left: 10px;
+  padding-right: 5px;
+  height: 6%;
+  margin: 1vw;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.homepage-edit-menu {
+  display: flex;
+  justify-content: space-evenly;
+  height: 95%;
+}
+
+.homepage-delete-btn {
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  aspect-ratio: 1 / 1;
+  margin-left: 10px;
+}
+
+.homepage-delete-btn:disabled {
+  background-color: grey;
+}
+
+.homepage-edit-btn {
+  background-color: orange;
+  color: white;
+  height: 95%;
+  border-radius: 5px;
+  aspect-ratio: 1 / 1;
+  margin-left: 10px;
+}
+
+.homepage-edit-btn:disabled {
+  background-color: grey;
+}
+
+.homepage-menu {
+  display: flex;
+  flex-direction: row;
+  height: 8vh;
+}
+
+.homepage-menu-btn {
+  width: 30vw;
+}
+
+.homepage-menu-btn:disabled {
+  width: 30vw;
+  background-color: grey;
+}
+
+.homepage-menu-search-btn {
+  width: 40vw;
+  background-color: orange;
+  color: white;
+}
+
+.homepage-menu-search-btn:disabled {
+  width: 40vw;
+  background-color: grey;
+}
+
+.homepage-list {
+  height: 92vh;
+  overflow: scroll;
   background-color: white;
 }
 
@@ -35,9 +98,23 @@
   color: white;
 }
 
-/* --- Active (visible) state --- */
+.homepage-stop-search {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(20%);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  width: 100vw !important;
+  height: 0vh;
+  background-color: white;
+}
+
 .homepage-stop-search.active {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+  
+  height: 100vh;
 }

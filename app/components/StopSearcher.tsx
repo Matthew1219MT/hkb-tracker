@@ -7,10 +7,11 @@ import { Route, Stop, RouteStop } from './types';
 import StopDisplay from './StopDisplay';
 
 type props = {
+    search: boolean,
     setSearch: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-const StopSearcher: React.FC<props> = ({ setSearch }) => {
+const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
 
     const BaseUrl: string = "https://data.etabus.gov.hk/";
 
@@ -49,7 +50,6 @@ const StopSearcher: React.FC<props> = ({ setSearch }) => {
                 }
             }
         })
-        //console.log(available_route, available_chr);
         setAvailableRoute(available_route);
         setAvailableChr(available_chr);
     }
@@ -99,43 +99,42 @@ const StopSearcher: React.FC<props> = ({ setSearch }) => {
         const route_service_type: string = route.service_type;
         const stop_list_url: string = `${BaseUrl}v1/transport/kmb/route-stop/${route_name}/${route_direction}/${route_service_type}`;
         fetch(stop_list_url, { method: "get" })
-        .then((response) => {
-            if (!response.ok) {
-                console.log("Failed to fetch");
-            }
-            return response.json();
-        })
-        .then((data: any) => {
-            const rout_stop_list: RouteStop[] = data.data;
-            const stop_list: Stop[] = [];
-            let promises: Promise<Response>[] = [];
-            rout_stop_list.forEach((stop: RouteStop) => {
-                const id = stop.stop;
-                const stop_url: string = `${BaseUrl}v1/transport/kmb/stop/${id}`;
-                promises.push(fetch(stop_url, { method: "get" }));
-            });
-            Promise.all(promises)
-                .then((responses) => {
-                    responses.forEach((response) => {
-                        if (!response.ok) {
-                            console.error("Failed to fetch");
-                        } else {
-                            response.json().then((data: any) => {
-                                const stop_info: Stop = data.data;
-                                stop_list.push(stop_info);
-                                setStopList(stop_list);
-                            });
-                        }
-                    })
-                })
-                .catch((e) => {
-                    console.log(e);
+            .then((response) => {
+                if (!response.ok) {
+                    console.log("Failed to fetch");
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                const rout_stop_list: RouteStop[] = data.data;
+                const stop_list: Stop[] = [];
+                let promises: Promise<Response>[] = [];
+                rout_stop_list.forEach((stop: RouteStop) => {
+                    const id = stop.stop;
+                    const stop_url: string = `${BaseUrl}v1/transport/kmb/stop/${id}`;
+                    promises.push(fetch(stop_url, { method: "get" }));
                 });
-            //console.log(stop_list);
-        })
-        .catch((e) => {
-            console.log(e);
-        });
+                Promise.all(promises)
+                    .then((responses) => {
+                        responses.forEach((response) => {
+                            if (!response.ok) {
+                                console.error("Failed to fetch");
+                            } else {
+                                response.json().then((data: any) => {
+                                    const stop_info: Stop = data.data;
+                                    stop_list.push(stop_info);
+                                    setStopList(stop_list);
+                                });
+                            }
+                        })
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }
 
     useEffect(() => {
@@ -147,26 +146,33 @@ const StopSearcher: React.FC<props> = ({ setSearch }) => {
     }, [routeList, inputRoute])
 
     useEffect(() => {
-        if (stopList.length === 0 ) {
+        if (stopList.length === 0) {
             setGettingStopList(false);
         }
     }, [stopList]);
 
-    return <div className="stop-searcher-container">
-    {
-        stopList.length > 0 ? <>{selectedRoute && <StopDisplay stopList={stopList} setStopList={setStopList} selectedRoute={selectedRoute}/>}</> :
-        <div><div className="stop-searcher-section-1">
-            <button className="stop-searcher-exit-btn" onClick={() => setSearch(false)}>Return</button>
-            <div className="stop-searcher-search-number">{inputRoute}</div>
-        </div>
-            <div className="stop-searcher-section-2">
-                {availableRoute.length > 0 && availableRoute.map((route, index) => {
-                    return <button className="stop-searcher-route-btn" style={{ width: "100%" }} key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>{route.route} | {route.dest_tc}</button>
-                })}
-            </div>
-            <InputPad availableChr={availableChr} updateInput={setInputRoute} />
-        </div>
-    }</div>;
+    return <div className={`stop-searcher-container`}>
+        {
+            stopList.length > 0 ? <>{selectedRoute && <StopDisplay stopList={stopList} setStopList={setStopList} selectedRoute={selectedRoute} />}</> :
+                <div>
+                    <div className="stop-searcher-section-1">
+                        <div className="stop-searcher-s1-container">
+                            <button className="stop-searcher-exit-btn" onClick={() => setSearch(false)}>Return</button>
+                            <div className="stop-searcher-search-number">{inputRoute}</div>
+                        </div>
+                    </div>
+                    <div className="stop-searcher-section-2">
+                        <div className="stop-searcher-s2-container">
+                            {availableRoute.length > 0 && availableRoute.map((route, index) => {
+                                return <button className="stop-searcher-route-btn" key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>{route.route} | {route.dest_tc}</button>
+                            })}
+                        </div>
+                    </div>
+                    <div className="stop-searcher-section-3">
+                        <InputPad availableChr={availableChr} updateInput={setInputRoute} />
+                    </div>
+                </div>
+        }</div>;
 }
 
 export default StopSearcher;

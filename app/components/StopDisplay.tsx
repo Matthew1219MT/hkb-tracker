@@ -1,5 +1,5 @@
 'use client'
-import { Route, Stop, StopETA } from "./types";
+import { LocalStorageStop, Route, Stop, StopETA } from "./types";
 import "./StopDisplay.css";
 import React, { useEffect, useState } from "react";
 import { diffInMinutesFromNow, getStopETA, removeBracketed } from "./utilities";
@@ -14,26 +14,26 @@ type props = {
 
 const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) => {
 
-    const [selectedStop, setSelectedStop] = useState<string>();
+    const [selectedStop, setSelectedStop] = useState<Stop | null>();
 
     const [stopETA, setStopETA] = useState<StopETA[]>([]);
 
     const { addStop } = useStop();
 
-    const setStopListener = (stop: string) => {
+    const setStopListener = (stop: Stop) => {
         if (stop === selectedStop) {
-            setSelectedStop("");
+            setSelectedStop(null);
         } else {
             setSelectedStop(stop);
         }
     }
 
-    const addStopListener = (stop: string) => {
-        //console.log(selectedRoute.route, selectedRoute.service_type, stop);
+    const addStopListener = (stop: string, stop_name: string) => {
         const new_stop = {
             stop: stop,
             route: selectedRoute.route,
-            service_type: selectedRoute.service_type
+            service_type: selectedRoute.service_type,
+            stop_name: stop_name
         };
         const result: boolean = addStop(new_stop);
         if (result) {
@@ -43,29 +43,32 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         }
     }
 
+    const getStopHandler = () => {
+        if (selectedStop) {
+            setStopETA(ETALoading);
+            const stop: LocalStorageStop = {
+                stop: selectedStop.stop,
+                service_type: selectedRoute.service_type,
+                route: selectedRoute.route,
+                stop_name: selectedStop.name_tc
+            }
+            getStopETA(stop).then(
+                (eta_list: StopETA[]) => {
+                    setStopETA(eta_list);
+                }
+            );    
+        }
+    }
+
     useEffect(() => {
         const periodicTask = setInterval(() => {
-            if (selectedStop) {
-                setStopETA(ETALoading);
-                getStopETA(selectedRoute.route, selectedRoute.service_type, selectedStop).then(
-                    (eta_list: StopETA[]) => {
-                        setStopETA(eta_list);
-                    }
-                );    
-            }
+            getStopHandler();
         }, 60000);
         return () => clearInterval(periodicTask);
     }, []);
 
     useEffect(() => {
-        if (selectedStop) {
-            setStopETA(ETALoading);
-            getStopETA(selectedRoute.route, selectedRoute.service_type, selectedStop).then(
-                (eta_list: StopETA[]) => {
-                    setStopETA(eta_list);
-                }
-            ); 
-        }
+        getStopHandler();
     }, [selectedStop]);;
 
     return (
@@ -73,11 +76,11 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
             <button className="stop-display-btn" onClick={() => setStopList([])}>Return</button>
             {stopList.map((stop, index) => (
                 <div key={index}>
-                    <div className="stop-display-stop-btn" onClick={() => {setStopListener(stop.stop)}}>
+                    <div className="stop-display-stop-btn" onClick={() => {setStopListener(stop)}}>
                         {removeBracketed(stop.name_tc)}
-                        <button className="stop-display-stop-add-btn" onClick={()=>{addStopListener(stop.stop)}}>+</button>
+                        <button className="stop-display-stop-add-btn" onClick={()=>{addStopListener(stop.stop, removeBracketed(stop.name_tc))}}>+</button>
                     </div>
-                    {stop.stop === selectedStop && stopETA.length > 0 && stopETA.map((ETA, i) => {
+                    {stop.stop === selectedStop?.stop && stopETA.length > 0 && stopETA.map((ETA, i) => {
                             return <div key={i} className="stop-display-stop-ETA">{diffInMinutesFromNow(ETA.eta)}</div>
                     })}
                 </div>

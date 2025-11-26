@@ -2,20 +2,27 @@
     display: flex;
     flex-direction: column;  
     width: 100%;
+    background-color: white;;
 }
 
 .stop-searcher-section-1 {
     height: 5vh;
-    margin: 5px;
+    width: 100vw;
+}
+
+.stop-searcher-s1-container{
     border: 1px solid black;
+    margin: 4px;
     border-radius: 5px;
     display: flex;
     flex-direction: row;
+    height: 100%;
 }
 
 .stop-searcher-exit-btn {
-    height: 100%;
     width: 100px;
+    height: 100%;
+    border-radius: 5px;
     background-color: orange;
     color: white;
 }
@@ -25,20 +32,33 @@
 }
 
 .stop-searcher-section-2 {
-    max-height: 45vh;
-    min-height: 45vh;
-    margin: 5px;
-    border: 1px solid black;
+    height: 45vh;
+    width: 100vw;
+}
+
+.stop-searcher-s2-container {
     border-radius: 5px;
     overflow: scroll;
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 100%;
+    margin: 4px;
+}
+
+.stop-searcher-section-3 {
+    height: 50vh;
 }
 
 .stop-searcher-route-btn {
+    width: 100%;
     background-color: white;
     text-align: left;
+    overflow: hidden;
     padding-left: 10px;
     padding-right: 10px;
-    overflow: hidden;
+    height: 10%;
+    margin-bottom: 4px;
+    border: 1px solid black;
 }
 
 .stop-searcher-route-btn:hover {
