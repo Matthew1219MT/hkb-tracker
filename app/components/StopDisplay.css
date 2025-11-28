@@ -7,6 +7,7 @@
 
 .stop-display-section-1 {
     height: 5%;
+    min-height: 37px;
     padding: 4px;
 }
 

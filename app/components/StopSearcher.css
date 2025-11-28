@@ -7,7 +7,8 @@
 }
 
 .stop-searcher-section-1 {
-    height: 5vh;
+    height: 50px;
+    min-height: 37px;
     width: 100vw;
     padding: 4px;
 }
@@ -20,6 +21,7 @@
     height: 100%;
     width: 100%;
     padding: 4px;
+    gap: 4px;
 }
 
 .stop-searcher-exit-btn {
@@ -33,7 +35,6 @@
 .stop-searcher-search-number {
     height: 100%;
     width: calc(100% - 100px - 8px);
-    margin-left: 4px;
     border-radius: 5px;
     background-color: orange;
     color: white;
@@ -42,7 +43,7 @@
 }
 
 .stop-searcher-section-2 {
-    height: 45vh;
+    height: calc(50vh - 50px);
     width: 100vw;
     padding: 4px;
 }
