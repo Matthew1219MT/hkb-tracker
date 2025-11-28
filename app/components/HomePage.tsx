@@ -36,6 +36,13 @@ const HomePage = () => {
         setStopETAList(stop_eta_list);
     }
 
+    const deleteETA = (index: number) => {
+        const stop_eta_list: StopETA[] = [...stopETAList];
+        stop_eta_list.splice(index, 1);
+        console.log(stop_eta_list);
+        setStopETAList(stop_eta_list);
+    }
+
     const saveETA = () => {
         const new_local_storage_stop: LocalStorageStop[] = [];
         stopETAList.forEach((stop, index)=> {
@@ -57,6 +64,7 @@ const HomePage = () => {
             fake_eta.route = stop.route;
             fake_eta.service_type = stop.service_type;
             fake_eta.stop = stop.stop;
+            fake_eta.stop_name = stop.stop_name;
             dummy_data.push(fake_eta);
         });
         setStopETAList(dummy_data);
@@ -96,12 +104,12 @@ const HomePage = () => {
             {stopETAList.length > 0 && stopETAList.map((stop, index) => {
                 if (stop) {
                     return <div className="homepage-stop" key={index}>
-                        <p>{stop.route} {stop.dest_tc}</p>
+                        <p>{stop.route} {stop.stop_name}</p>
                         {edit ? 
                             <div className="homepage-edit-menu">
                                 <button className="homepage-edit-btn" disabled={index < 1} onClick={()=>editETA("up", index)}><b>▲</b></button>
                                 <button className="homepage-edit-btn" disabled={index >= stopETAList.length - 1} onClick={()=>editETA("down", index)}><b>▼</b></button>
-                                <button className="homepage-delete-btn"><b>X</b></button>
+                                <button className="homepage-delete-btn" onClick={()=>deleteETA(index)}><b>X</b></button>
                             </div>
                         :
                             <p>{diffInMinutesFromNow(stop.eta)}</p>
