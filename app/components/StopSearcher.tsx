@@ -154,7 +154,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
     return <div className={`stop-searcher-container`}>
         {
             stopList.length > 0 ? <>{selectedRoute && <StopDisplay stopList={stopList} setStopList={setStopList} selectedRoute={selectedRoute} />}</> :
-                <div>
+                <>
                     <div className="stop-searcher-section-1">
                         <div className="stop-searcher-s1-container">
                             <button className="stop-searcher-exit-btn" onClick={() => setSearch(false)}>Return</button>
@@ -171,7 +171,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
                     <div className="stop-searcher-section-3">
                         <InputPad availableChr={availableChr} updateInput={setInputRoute} />
                     </div>
-                </div>
+                </>
         }</div>;
 }
 

@@ -1,6 +1,5 @@
 .inputpad-container {
-    height: 50vh;
-    margin: 5px;
+    height: 100%;
     border: 1px solid black;
     border-radius: 5px;
     display: flex;
@@ -10,7 +9,13 @@
 .inputpad-num-container {
     width: 75%;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 4px;
+    padding-left: 4px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    padding-right: 2px;
 }
 
 .foundation-num-0 {
@@ -23,18 +28,28 @@
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
-}
-
-.inputpad-chr {
-    min-height: calc(25% - 10px);
-    overflow: hidden;
+    gap: 4px;
+    padding-left: 2px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    padding-right: 4px;
 }
 
 .inputpad-button {
     background-color: rgb(255, 164, 79);
-    margin: 5px;
     color: white;
     font-weight: bold;
+    border-radius: 4px;
+}
+
+.inputpad-num-container .inputpad-button {
+    height: 100%;
+    width: 100%;
+}
+
+.inputpad-chr-container .inputpad-button {
+    height: calc(25% - 3px);
+    flex-shrink: 0;
 }
 
 .inputpad-button:hover {
@@ -45,24 +60,20 @@
     background-color: grey;
 }
 
-/* width */
 ::-webkit-scrollbar {
 width: 5px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
 box-shadow: transparent; 
 border-radius: 10px;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
 background: black; 
 border-radius: 12px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
 background: grey; 
 }
