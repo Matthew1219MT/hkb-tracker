@@ -73,18 +73,31 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
 
     return (
         <div className="stop-display-container">
-            <button className="stop-display-btn" onClick={() => setStopList([])}>Return</button>
-            {stopList.map((stop, index) => (
-                <div key={index}>
-                    <div className="stop-display-stop-btn" onClick={() => {setStopListener(stop)}}>
-                        {removeBracketed(stop.name_tc)}
-                        <button className="stop-display-stop-add-btn" onClick={()=>{addStopListener(stop.stop, removeBracketed(stop.name_tc))}}>+</button>
+            <div className="stop-display-section-1">
+                <button className="stop-display-return-btn" onClick={() => setStopList([])}>Return</button>
+            </div>
+            <div className="stop-display-section-2">
+                {stopList.map((stop, index) => (
+                    <div key={index}>
+                        <div className="stop-display-stop">
+                            <div className="stop-display-stop-text">
+                                {removeBracketed(stop.name_tc)}
+                            </div>
+                            <div className="stop-display-btn-list">
+                                <button className="stop-display-btn" onClick={()=>{addStopListener(stop.stop, removeBracketed(stop.name_tc))}}>+</button>
+                                {stop.stop === selectedStop?.stop ? 
+                                    <button className="stop-display-btn" onClick={() => {setStopListener(stop)}}>▲</button>
+                                :
+                                    <button className="stop-display-btn" onClick={() => {setStopListener(stop)}}>▼</button>
+                                }
+                            </div>
+                        </div>
+                        {stop.stop === selectedStop?.stop && stopETA.length > 0 && stopETA.map((ETA, i) => {
+                                return <div key={i} className="stop-display-stop-ETA">{diffInMinutesFromNow(ETA.eta)}</div>
+                        })}
                     </div>
-                    {stop.stop === selectedStop?.stop && stopETA.length > 0 && stopETA.map((ETA, i) => {
-                            return <div key={i} className="stop-display-stop-ETA">{diffInMinutesFromNow(ETA.eta)}</div>
-                    })}
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 }

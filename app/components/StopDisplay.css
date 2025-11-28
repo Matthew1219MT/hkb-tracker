@@ -1,10 +1,43 @@
-.stop-display-btn {
-    width: 100px;
+.stop-display-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.stop-display-section-1 {
+    height: 5%;
+    padding: 4px;
+}
+
+.stop-display-section-2 {
+    height: 95%;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stop-display-stop-text {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.stop-display-return-btn {
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
     background-color: orange;
     color: white;
 }
 
-.stop-display-stop-btn {
+.stop-display-btn-list {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+}
+
+.stop-display-stop {
     display: flex;
     background-color: white;
     text-align: left;
@@ -13,18 +46,20 @@
     overflow: hidden;
     width: 100%;
     justify-content: space-between;
-    min-height: 20px;
+    height: 5vh;
 }
 
 .stop-display-stop-btn:hover {
     background-color: lightgrey;
 }
 
-.stop-display-stop-add-btn {
-    background-color: black;
+.stop-display-btn {
+    background-color: orange;
     color: white;
-    min-height: 20px;
-    min-width: 20px;
+    font-weight: bold;
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 4px;
 }
 
 .stop-display-stop-btn:disabled {
@@ -35,4 +70,5 @@
 .stop-display-stop-ETA {
     padding-left: 20px;
     padding-right: 20px;
+    height: 5vh;
 }

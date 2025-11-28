@@ -19,6 +19,7 @@
     flex-direction: row;
     height: 100%;
     width: 100%;
+    padding: 4px;
 }
 
 .stop-searcher-exit-btn {
@@ -30,7 +31,14 @@
 }
 
 .stop-searcher-search-number {
-
+    height: 100%;
+    width: calc(100% - 100px - 8px);
+    margin-left: 4px;
+    border-radius: 5px;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+    text-align: center;
 }
 
 .stop-searcher-section-2 {
@@ -45,6 +53,7 @@
     border: 1px solid black;
     border-radius: 5px;
     height: 100%;
+    padding: 4px;
 }
 
 .stop-searcher-section-3 {
@@ -62,6 +71,7 @@
     height: 10%;
     margin-bottom: 4px;
     border: 1px solid black;
+    border-radius: 5px;
 }
 
 .stop-searcher-route-btn:hover {
