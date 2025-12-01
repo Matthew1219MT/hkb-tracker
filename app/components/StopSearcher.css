@@ -40,6 +40,9 @@
     color: white;
     font-weight: bold;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .stop-searcher-section-2 {

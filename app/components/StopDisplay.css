@@ -3,6 +3,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: white;
 }
 
 .stop-display-section-1 {
@@ -12,11 +13,13 @@
 }
 
 .stop-display-section-2 {
+    width: 100%;
     height: 95%;
     padding: 4px;
     display: flex;
     flex-direction: column;
     gap: 4px;
+    overflow: auto;
 }
 
 .stop-display-stop-text {
