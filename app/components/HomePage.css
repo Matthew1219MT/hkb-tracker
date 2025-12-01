@@ -7,18 +7,21 @@
 }
 
 .homepage-stop {
+  background-color: var(--main-50);
   display: flex;
   justify-content: space-between;
   width:98%;
   text-align: left;
   overflow: hidden;
   padding-left: 10px;
-  padding-right: 5px;
+  padding-right: 10px;
   height: 6%;
   margin: 1vw;
   align-items: center;
-  border: 1px solid black;
-  border-radius: 6px;
+  border-radius: 12px;
+  color: var(--main-100);
+  font-weight: bold;
+  border: 2px solid var(--main-100);
 }
 
 .homepage-edit-menu {
@@ -28,68 +31,80 @@
 }
 
 .homepage-delete-btn {
-  background-color: red;
-  color: white;
-  border-radius: 5px;
+  background-color: var(--red);
+  color: var(--white);
+  border-radius: 12px;
   aspect-ratio: 1 / 1;
   margin-left: 10px;
 }
 
 .homepage-delete-btn:disabled {
-  background-color: grey;
+  background-color: var(--grey-30);
+  color: var(--grey-50);
 }
 
 .homepage-edit-btn {
-  background-color: orange;
-  color: white;
-  height: 95%;
-  border-radius: 5px;
+  background-color: var(--secondary-30);
+  color: var(--secondary-50);
+  height: 100%;
+  border-radius: 12px;
   aspect-ratio: 1 / 1;
   margin-left: 10px;
 }
 
 .homepage-edit-btn:disabled {
-  background-color: grey;
+  background-color: var(--grey-30);
+  color: var(--grey-50);
 }
 
 .homepage-menu {
   display: flex;
   flex-direction: row;
+  gap: 8px;
   height: 8vh;
+  margin-left: 16px;
+  margin-bottom: 16px;
+  margin-right: 16px;
+  margin-top: 8px;
 }
 
 .homepage-menu-btn {
   width: 30vw;
-  margin: 8px;
   border-radius: 8px;
-  background-color: white;
+  background-color: var(--secondary-30);
+  color: var(--secondary-100);
+  font-weight: bold;
 }
 
 .homepage-menu-btn:disabled {
   width: 30vw;
-  background-color: grey;
+  background-color: var(--grey-30);
 }
 
 .homepage-menu-search-btn {
   width: 40vw;
-  background-color: orange;
-  color: white;
-  margin: 8px;
+  background-color: var(--main-50);
+  color: var(--main-100);
   border-radius: 8px;
+  font-weight: bold;
 }
 
 .homepage-menu-search-btn:disabled {
   width: 40vw;
-  background-color: grey;
+  background-color: var(--grey-30);
+  color: var(--grey-100);
 }
 
 .homepage-list {
   height: 92vh;
   overflow: scroll;
-  background-color: white;
-  margin: 5px;
+  background-color: var(--main-05);
+  margin-left: 16px;
+  margin-bottom: 8px;
+  margin-right: 16px;
+  margin-top: 16px;
   border: black solid 1px;
-  border-radius: 8px;
+  border-radius: 16px;
 }
 
 .homepage-center{
@@ -99,12 +114,6 @@
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
-
-.homepage-search-btn {
-  width: 100px;
-  background-color: orange;
-  color: white;
 }
 
 .homepage-stop-search {
@@ -117,7 +126,7 @@
   transition: opacity 0.4s ease, transform 0.4s ease;
   width: 100vw !important;
   height: 0vh;
-  background-color: white;
+  background-color: var(--primary-color);
 }
 
 .homepage-stop-search.active {

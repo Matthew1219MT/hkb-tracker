@@ -1,15 +1,19 @@
 .stop-display-container {
     width: 100vw;
     height: 100vh;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    gap: 8px;
+    background-color: var(--secondary-100);
 }
 
 .stop-display-section-1 {
     height: 5%;
     min-height: 37px;
     padding: 4px;
+    background-color: var(--main-05);
+    border-radius: 16px;
 }
 
 .stop-display-section-2 {
@@ -20,6 +24,8 @@
     flex-direction: column;
     gap: 4px;
     overflow: auto;
+    background-color: var(--main-05);
+    border-radius: 16px;
 }
 
 .stop-display-stop-text {
@@ -31,26 +37,36 @@
     height: 100%;
     width: 100%;
     border-radius: 4px;
-    background-color: orange;
-    color: white;
+    background-color: var(--main-50);
+    color: var(--main-100);
+    border-radius: 12px;
+    border: 2px solid var(--main-100);
 }
 
 .stop-display-btn-list {
     display: flex;
     flex-direction: row;
     gap: 4px;
+    height: 100%;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 .stop-display-stop {
     display: flex;
-    background-color: white;
+    background-color: var(--main-50);
+    color: var(--main-100);
+    border: 2px solid var(--main-100);
     text-align: left;
     padding-left: 10px;
     padding-right: 10px;
     overflow: hidden;
     width: 100%;
     justify-content: space-between;
-    height: 5vh;
+    height: 8vh;
+    font-weight: bold;
+    border-radius: 12px;
+    align-items: center;
 }
 
 .stop-display-stop-btn:hover {
@@ -58,12 +74,13 @@
 }
 
 .stop-display-btn {
-    background-color: orange;
-    color: white;
+    background-color: var(--secondary-30);
+    color: var(--secondary-50);
+    height: 100%;
+    border-radius: 12px;
     font-weight: bold;
     height: 100%;
     aspect-ratio: 1;
-    border-radius: 4px;
 }
 
 .stop-display-stop-btn:disabled {
