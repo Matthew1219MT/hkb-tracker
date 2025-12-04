@@ -1,4 +1,5 @@
 'use client'
+import { useTranslation } from "react-i18next";
 import "./Confirm.css";
 import { Dispatch, SetStateAction, useEffect, useState } from "react"; 
 
@@ -10,6 +11,8 @@ type props = {
 }
 
 const Confirm: React.FC<props> = ({text, fuc, confirm, setConfirm}) => {
+
+    const { t, i18n } = useTranslation();
 
     const [result, setResult] = useState<string>('');
 
@@ -28,15 +31,15 @@ const Confirm: React.FC<props> = ({text, fuc, confirm, setConfirm}) => {
                 <>
                     {text}
                     <div className="confirm-btn-list">
-                        <button className="confirm-btn cancel" onClick={()=>setConfirm(false)}>Cancel</button>
-                        <button className="confirm-btn confirm" onClick={()=>confirmListener()}>Confirm</button>
+                        <button className="confirm-btn cancel" onClick={()=>setConfirm(false)}>{t('cancel')}</button>
+                        <button className="confirm-btn confirm" onClick={()=>confirmListener()}>{t('confirm')}</button>
                     </div>
                 </>
             :
                 <>
                     {result}
                     <div className="confirm-btn-list">
-                        <button className="confirm-btn confirm" onClick={()=>okListener()}>Confirm</button>
+                        <button className="confirm-btn confirm" onClick={()=>okListener()}>{t('confirm')}</button>
                     </div>
 
                 </>

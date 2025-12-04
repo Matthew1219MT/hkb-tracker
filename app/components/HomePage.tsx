@@ -8,8 +8,11 @@ import "./HomePage.css";
 import { diffInMinutesFromNow, getStopETA } from "./utilities";
 import { SingleETA } from "./LoadData";
 import Confirm from "./Confirm";
+import { useTranslation } from 'react-i18next';
 
 const HomePage = () => {
+
+    const { t, i18n } = useTranslation();
 
     const [search, setSearch] = useState<boolean>(false);
 
@@ -91,23 +94,23 @@ const HomePage = () => {
 
     const cancelHandler = (): string => {
         setEdit(false);
-        return 'Changes cancelled';
+        return t('cancelConfirm');
     }
 
     const cancelListener = () => {
         setConfirmFuc(() => cancelHandler);
-        setConfirmText("Do you want to cancel your edit? Changes will be lost!");
+        setConfirmText(t('cancelPrompt'));
         setConfirm(true);
     }
 
     const saveHandler = (): string => {
         saveETA();
-        return 'Changes saved';
+        return t('saveConfirm');
     }
 
     const saveListener = () => {
         setConfirmFuc(() => saveHandler);
-        setConfirmText("Do you want to save the current edit?");
+        setConfirmText(t('savePrompt'));
         setConfirm(true);
     }
 
@@ -170,15 +173,15 @@ const HomePage = () => {
         </div>
         <div className="homepage-menu">
             {edit ?
-                <button onClick={() => cancelListener()} className="homepage-menu-btn">Cancel</button>
+                <button onClick={() => cancelListener()} className="homepage-menu-btn">{t('cancel')}</button>
             :
-                <button onClick={() => setEdit(true)} className="homepage-menu-btn">Edit</button>
+                <button onClick={() => setEdit(true)} className="homepage-menu-btn">{t('edit')}</button>
             }
-            <button onClick={() => setSearch(true)} className="homepage-menu-search-btn" disabled={edit}>Search</button>
+            <button onClick={() => setSearch(true)} className="homepage-menu-search-btn" disabled={edit}>{t('search')}</button>
             {edit ?
-                <button onClick={() => saveListener()} className="homepage-menu-btn">Save</button>
+                <button onClick={() => saveListener()} className="homepage-menu-btn">{t('save')}</button>
             :
-                <button onClick={() => setSetting(true)} className="homepage-menu-btn">Setting</button>
+                <button onClick={() => setSetting(true)} className="homepage-menu-btn">{t('setting')}</button>
             }
         </div>
         <StopSearcher search={search} setSearch={setSearch} />
