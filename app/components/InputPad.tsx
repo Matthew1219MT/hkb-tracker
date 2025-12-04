@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import './InputPad.css';
 import React from 'react';
 
@@ -7,6 +8,8 @@ type props = {
 }
 
 const InputPad: React.FC<props> = ({availableChr, updateInput}) => {
+
+    const { t, i18n } = useTranslation();
 
     const NumPad: number[] = [7, 8, 9, 4, 5, 6, 1, 2, 3];
 
@@ -40,7 +43,7 @@ const InputPad: React.FC<props> = ({availableChr, updateInput}) => {
                     {num}
                 </button>
             })}
-            <button className="inputpad-button" onClick={()=>{clearHandler()}}>Clear</button>
+            <button className="inputpad-button" onClick={()=>{clearHandler()}}>{t('clear')}</button>
             <button className="inputpad-button" onClick={()=>{onClickHandler("0")}} disabled={!availableChr.includes("0")}>0</button>
             <button className="inputpad-button" onClick={()=>{deleteHandler()}}>←</button>
         </div>

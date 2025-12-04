@@ -6,6 +6,7 @@ import { diffInMinutesFromNow, getStopETA, removeBracketed } from "./utilities";
 import { ETALoading } from "./LoadData";
 import { useStop } from "./context/stopContext";
 import Confirm from "./Confirm";
+import { useTranslation } from "react-i18next";
 
 type props = {
     stopList: Stop[]
@@ -14,6 +15,8 @@ type props = {
 }
 
 const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) => {
+
+    const { t, i18n } = useTranslation();
 
     const [selectedStop, setSelectedStop] = useState<Stop | null>();
 
@@ -46,15 +49,15 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         };
         const result: boolean = addStop(new_stop);
         if (result) {
-            return "Stop successfully added";
+            return t("storeConfirm");
         } else {
-            return "Duplicate stop";
+            return t("storeError");
         }
     }
 
     const addStopListener = (stop: string, stop_name: string) => {
         setConfirmFuc(() => () => addStopHandler(stop, stop_name));
-        setConfirmText("Do you want to save this stop?");
+        setConfirmText(t("storePrompt"));
         setConfirm(true);
     }
 
@@ -99,7 +102,7 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         <div className="stop-display-container">
             {renderConfirm && <Confirm text={confirmText} fuc={confirmFuc} confirm={confirm} setConfirm={setConfirm}/>}
             <div className="stop-display-section-1">
-                <button className="stop-display-return-btn" onClick={() => setStopList([])}>Return</button>
+                <button className="stop-display-return-btn" onClick={() => setStopList([])}>{t('return')}</button>
             </div>
             <div className="stop-display-section-2">
                 {stopList.map((stop, index) => (

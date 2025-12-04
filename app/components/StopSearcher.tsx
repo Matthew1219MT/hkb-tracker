@@ -5,6 +5,7 @@ import './StopSearcher.css';
 import InputPad from './InputPad';
 import { Route, Stop, RouteStop } from './types';
 import StopDisplay from './StopDisplay'
+import { useTranslation } from 'react-i18next';
 
 type props = {
     search: boolean,
@@ -12,6 +13,8 @@ type props = {
 };
 
 const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
+
+    const { t, i18n } = useTranslation();
 
     const BaseUrl: string = "https://data.etabus.gov.hk/";
 
@@ -157,7 +160,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
                 <>
                     <div className="stop-searcher-section-1">
                         <div className="stop-searcher-s1-container">
-                            <button className="stop-searcher-exit-btn" onClick={() => setSearch(false)}>Return</button>
+                            <button className="stop-searcher-exit-btn" onClick={() => setSearch(false)}>{t('return')}</button>
                             <div className="stop-searcher-search-number">{inputRoute}</div>
                         </div>
                     </div>
