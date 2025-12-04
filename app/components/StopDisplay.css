@@ -89,8 +89,18 @@
     color: darkgrey;
 }
 
+.stop-display-ETA-list {
+    margin-left: 4px;
+    margin-right: 4px;
+    background-color: var(--main-30);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
 .stop-display-stop-ETA {
     padding-left: 20px;
     padding-right: 20px;
     height: 5vh;
+    display: flex;
+    align-items: center;
 }

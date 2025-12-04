@@ -117,9 +117,11 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
                                 }
                             </div>
                         </div>
-                        {stop.stop === selectedStop?.stop && stopETA.length > 0 && stopETA.map((ETA, i) => {
+                        <div className="stop-display-ETA-list">
+                            {stop.stop === selectedStop?.stop && stopETA.length > 0 && stopETA.map((ETA, i) => {
                                 return <div key={i} className="stop-display-stop-ETA">{diffInMinutesFromNow(ETA.eta)}</div>
-                        })}
+                            })}
+                        </div>
                     </div>
                 ))}
             </div>
