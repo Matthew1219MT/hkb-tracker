@@ -41,6 +41,7 @@
     color: var(--main-100);
     border-radius: 12px;
     border: 2px solid var(--main-100);
+    font-weight: bold;
 }
 
 .stop-display-btn-list {

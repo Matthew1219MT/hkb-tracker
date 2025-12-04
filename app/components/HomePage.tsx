@@ -27,7 +27,7 @@ const HomePage = () => {
 
     const [renderConfirm, setRenderConfirm] = useState<boolean>(false);
 
-    const [confirmFuc, setConfirmFuc] = useState<(...args: any[]) => any>(()=>{});
+    const [confirmFuc, setConfirmFuc] = useState<(...args: any[]) => string>(()=>{return ''});
 
     const { stopList, updateStopList } = useStop();
 
@@ -89,8 +89,9 @@ const HomePage = () => {
         });
     }
 
-    const cancelHandler = () => {
+    const cancelHandler = (): string => {
         setEdit(false);
+        return 'Changes cancelled';
     }
 
     const cancelListener = () => {
@@ -99,8 +100,9 @@ const HomePage = () => {
         setConfirm(true);
     }
 
-    const saveHandler = () => {
+    const saveHandler = (): string => {
         saveETA();
+        return 'Changes saved';
     }
 
     const saveListener = () => {
@@ -128,14 +130,14 @@ const HomePage = () => {
         }
     }, [edit]);
 
-useEffect(() => {
-    if (confirm) {
-        setRenderConfirm(true);
-    } else {
-        const timer = setTimeout(() => setRenderConfirm(false), 500);
-        return () => clearTimeout(timer);
-    }
-}, [confirm]);
+    useEffect(() => {
+        if (confirm) {
+            setRenderConfirm(true);
+        } else {
+            const timer = setTimeout(() => setRenderConfirm(false), 500);
+            return () => clearTimeout(timer);
+        }
+    }, [confirm]);
 
     return <div className="homepage-container">
         {renderConfirm && <Confirm text={confirmText} fuc={confirmFuc} confirm={confirm} setConfirm={setConfirm}/>}

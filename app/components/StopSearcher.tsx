@@ -164,7 +164,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
                     <div className="stop-searcher-section-2">
                         <div className="stop-searcher-s2-container">
                             {availableRoute.length > 0 && availableRoute.map((route, index) => {
-                                return <button className="stop-searcher-route-btn" key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>{route.route} | {route.dest_tc}</button>
+                                return <button className="stop-searcher-route-btn" key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>{route.route} {route.dest_tc}</button>
                             })}
                         </div>
                     </div>

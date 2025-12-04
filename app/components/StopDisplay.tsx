@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { diffInMinutesFromNow, getStopETA, removeBracketed } from "./utilities";
 import { ETALoading } from "./LoadData";
 import { useStop } from "./context/stopContext";
+import Confirm from "./Confirm";
 
 type props = {
     stopList: Stop[]
@@ -18,6 +19,14 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
 
     const [stopETA, setStopETA] = useState<StopETA[]>([]);
 
+    const [confirmText, setConfirmText] = useState<string>('Confirm Text');
+
+    const [confirm, setConfirm] = useState<boolean>(false);
+
+    const [renderConfirm, setRenderConfirm] = useState<boolean>(false);
+
+    const [confirmFuc, setConfirmFuc] = useState<(...args: any[]) => string>(()=>{return ''});
+
     const { addStop } = useStop();
 
     const setStopListener = (stop: Stop) => {
@@ -28,7 +37,7 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         }
     }
 
-    const addStopListener = (stop: string, stop_name: string) => {
+    const addStopHandler = (stop: string, stop_name: string): string => {
         const new_stop = {
             stop: stop,
             route: selectedRoute.route,
@@ -37,10 +46,16 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         };
         const result: boolean = addStop(new_stop);
         if (result) {
-            console.log("Stop successfully added");
+            return "Stop successfully added";
         } else {
-            console.log("Duplicate stop");
+            return "Duplicate stop";
         }
+    }
+
+    const addStopListener = (stop: string, stop_name: string) => {
+        setConfirmFuc(() => () => addStopHandler(stop, stop_name));
+        setConfirmText("Do you want to save this stop?");
+        setConfirm(true);
     }
 
     const getStopHandler = () => {
@@ -71,8 +86,18 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         getStopHandler();
     }, [selectedStop]);;
 
+    useEffect(() => {
+        if (confirm) {
+            setRenderConfirm(true);
+        } else {
+            const timer = setTimeout(() => setRenderConfirm(false), 500);
+            return () => clearTimeout(timer);
+        }
+    }, [confirm]);
+
     return (
         <div className="stop-display-container">
+            {renderConfirm && <Confirm text={confirmText} fuc={confirmFuc} confirm={confirm} setConfirm={setConfirm}/>}
             <div className="stop-display-section-1">
                 <button className="stop-display-return-btn" onClick={() => setStopList([])}>Return</button>
             </div>
