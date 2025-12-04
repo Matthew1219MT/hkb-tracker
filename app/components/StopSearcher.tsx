@@ -4,7 +4,7 @@ import React from "react";
 import './StopSearcher.css';
 import InputPad from './InputPad';
 import { Route, Stop, RouteStop } from './types';
-import StopDisplay from './StopDisplay';
+import StopDisplay from './StopDisplay'
 
 type props = {
     search: boolean,
@@ -151,7 +151,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
         }
     }, [stopList]);
 
-    return <div className={`stop-searcher-container`}>
+    return <div className={`stop-searcher-container search-fade-in ${search ? 'visible' : ''}`}>
         {
             stopList.length > 0 ? <>{selectedRoute && <StopDisplay stopList={stopList} setStopList={setStopList} selectedRoute={selectedRoute} />}</> :
                 <>

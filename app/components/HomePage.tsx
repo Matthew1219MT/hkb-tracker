@@ -139,6 +139,15 @@ const HomePage = () => {
         }
     }, [confirm]);
 
+    useEffect(() => {
+        if (search) {
+            setRenderSearch(true);
+        } else {
+            const timer = setTimeout(() => setRenderSearch(false), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [search]);
+
     return <div className="homepage-container">
         {renderConfirm && <Confirm text={confirmText} fuc={confirmFuc} confirm={confirm} setConfirm={setConfirm}/>}
         <div className="homepage-list">
@@ -172,9 +181,7 @@ const HomePage = () => {
                 <button onClick={() => setSetting(true)} className="homepage-menu-btn">Setting</button>
             }
         </div>
-        <div className={`homepage-stop-search ${renderSearch ? "active" : ""}`}>
-            <StopSearcher search={search} setSearch={setSearch} />
-        </div>
+        <StopSearcher search={search} setSearch={setSearch} />
     </div>
 }
 
