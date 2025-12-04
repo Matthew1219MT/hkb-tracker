@@ -1,0 +1,85 @@
+.confirm-container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    z-index: -10;
+}
+
+.confirm-box {
+    width: 70vw;
+    background-color: var(--main-30);
+    border: 2px solid var(--main-100);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 16px;
+    gap: 16px;
+    padding: 16px;
+    font-weight: bold;
+}
+
+.confirm-btn-list {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.confirm-btn {
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.confirm {
+    background-color: var(--main-50);
+    color: var(--main-100);
+}
+
+.cancel {
+    background-color: var(--secondary-30);
+    color: var(--secondary-100);
+}
+
+.fade-in {
+    opacity: 0;
+    z-index: -10;
+    animation: fadeOut 0.5s ease forwards;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    z-index: 10;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        z-index: -10;
+    }
+
+    to {
+        opacity: 1;
+        z-index: 10;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        z-index: 10;
+    }
+
+    to {
+        opacity: 0;
+        z-index: -10;
+    }
+}

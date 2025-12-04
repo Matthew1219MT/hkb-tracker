@@ -7,6 +7,7 @@ import { LocalStorageStop, StopETA } from "./types";
 import "./HomePage.css";
 import { diffInMinutesFromNow, getStopETA } from "./utilities";
 import { SingleETA } from "./LoadData";
+import Confirm from "./Confirm";
 
 const HomePage = () => {
 
@@ -19,6 +20,14 @@ const HomePage = () => {
     const [edit, setEdit] = useState<boolean>(false);
 
     const [setting, setSetting] = useState<boolean>(false);
+
+    const [confirmText, setConfirmText] = useState<string>('Confirm Text');
+
+    const [confirm, setConfirm] = useState<boolean>(false);
+
+    const [renderConfirm, setRenderConfirm] = useState<boolean>(false);
+
+    const [confirmFuc, setConfirmFuc] = useState<(...args: any[]) => any>(()=>{});
 
     const { stopList, updateStopList } = useStop();
 
@@ -80,6 +89,26 @@ const HomePage = () => {
         });
     }
 
+    const cancelHandler = () => {
+        setEdit(false);
+    }
+
+    const cancelListener = () => {
+        setConfirmFuc(() => cancelHandler);
+        setConfirmText("Do you want to cancel your edit? Changes will be lost!");
+        setConfirm(true);
+    }
+
+    const saveHandler = () => {
+        saveETA();
+    }
+
+    const saveListener = () => {
+        setConfirmFuc(() => saveHandler);
+        setConfirmText("Do you want to save the current edit?");
+        setConfirm(true);
+    }
+
     useEffect(() => {
         updateETA();
     }, [stopList]);
@@ -99,7 +128,17 @@ const HomePage = () => {
         }
     }, [edit]);
 
+useEffect(() => {
+    if (confirm) {
+        setRenderConfirm(true);
+    } else {
+        const timer = setTimeout(() => setRenderConfirm(false), 500);
+        return () => clearTimeout(timer);
+    }
+}, [confirm]);
+
     return <div className="homepage-container">
+        {renderConfirm && <Confirm text={confirmText} fuc={confirmFuc} confirm={confirm} setConfirm={setConfirm}/>}
         <div className="homepage-list">
             {stopETAList.length > 0 && stopETAList.map((stop, index) => {
                 if (stop) {
@@ -120,18 +159,18 @@ const HomePage = () => {
         </div>
         <div className="homepage-menu">
             {edit ?
-                <button onClick={() => setEdit(false)} className="homepage-menu-btn">Cancel</button>
+                <button onClick={() => cancelListener()} className="homepage-menu-btn">Cancel</button>
             :
                 <button onClick={() => setEdit(true)} className="homepage-menu-btn">Edit</button>
             }
             <button onClick={() => setSearch(true)} className="homepage-menu-search-btn" disabled={edit}>Search</button>
             {edit ?
-                <button onClick={() => saveETA()} className="homepage-menu-btn">Save</button>
+                <button onClick={() => saveListener()} className="homepage-menu-btn">Save</button>
             :
                 <button onClick={() => setSetting(true)} className="homepage-menu-btn">Setting</button>
             }
         </div>
-        <div className={`homepage-stop-search ${search ? "active" : ""}`}>
+        <div className={`homepage-stop-search ${renderSearch ? "active" : ""}`}>
             <StopSearcher search={search} setSearch={setSearch} />
         </div>
     </div>
