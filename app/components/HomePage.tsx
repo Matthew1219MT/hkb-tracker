@@ -51,7 +51,6 @@ const HomePage = () => {
     const deleteETA = (index: number) => {
         const stop_eta_list: StopETA[] = [...stopETAList];
         stop_eta_list.splice(index, 1);
-        console.log(stop_eta_list);
         setStopETAList(stop_eta_list);
     }
 
@@ -71,8 +70,9 @@ const HomePage = () => {
 
     const updateETA = () => {
         const dummy_data: StopETA[] = [];
-        stopList.forEach(stop => {
-            const fake_eta: StopETA = SingleETA;
+        const stop_list: LocalStorageStop[] = stopList;
+        stop_list.forEach(stop => {
+            const fake_eta: StopETA = { ...SingleETA };
             fake_eta.route = stop.route;
             fake_eta.service_type = stop.service_type;
             fake_eta.stop = stop.stop;
@@ -81,7 +81,7 @@ const HomePage = () => {
         });
         setStopETAList(dummy_data);
         Promise.all(
-            stopList.map(stop =>
+            stop_list.map(stop =>
                 getStopETA(stop)
                 .then((eta_list) => {
                     return eta_list.filter((eta) => eta.eta_seq === 1)[0];
@@ -113,6 +113,17 @@ const HomePage = () => {
         setConfirmText(t('savePrompt'));
         setConfirm(true);
     }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const now = new Date();
+            if (now.getSeconds() === 0) {
+                updateETA();
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [stopList]);
 
     useEffect(() => {
         updateETA();
@@ -156,6 +167,7 @@ const HomePage = () => {
         <div className="homepage-list">
             {stopETAList.length > 0 && stopETAList.map((stop, index) => {
                 if (stop) {
+                    const time = diffInMinutesFromNow(stop.eta);
                     return <div className="homepage-stop" key={index}>
                         <p>{stop.route} {stop.stop_name}</p>
                         {edit ? 
@@ -165,7 +177,7 @@ const HomePage = () => {
                                 <button className="homepage-delete-btn" onClick={()=>deleteETA(index)}><b>X</b></button>
                             </div>
                         :
-                            <p>{diffInMinutesFromNow(stop.eta)}</p>
+                            <p>{time == "0" ? t('comingSoon') : time}</p>
                         }
                     </div>
                 }

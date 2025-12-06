@@ -22,6 +22,7 @@ i18n
           storePrompt: "Do you want to save this stop?",
           storeConfirm: "Stop saved",
           storeError: "",
+          comingSoon: "Coming Soon",
         }
       },
       tc: {
@@ -40,7 +41,8 @@ i18n
           return: "返回",
           storePrompt: "你要儲存這個巴士站嗎？",
           storeConfirm: "成功儲存巴士站",
-          storeError: "這個巴士站已被儲存"
+          storeError: "這個巴士站已被儲存",
+          comingSoon: "即將抵達"
         }
       }
     },
