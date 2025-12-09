@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import StopSearcher from "./StopSearcher";
 import { useStop } from "./context/stopContext";
-import { LocalStorageStop, StopETA } from "./types";
+import { LocalStorageStop, Settings, StopETA } from "./types";
 import "./HomePage.css";
 import { diffInMinutesFromNow, getStopETA } from "./utilities";
 import { SingleETA } from "./LoadData";
@@ -23,6 +23,8 @@ const HomePage = () => {
     const [edit, setEdit] = useState<boolean>(false);
 
     const [setting, setSetting] = useState<boolean>(false);
+
+    const [settingConfig, setSettingConfig] = useState<Settings>({language: 'tc'});
 
     const [confirmText, setConfirmText] = useState<string>('Confirm Text');
 
@@ -98,6 +100,7 @@ const HomePage = () => {
 
     const cancelHandler = (): string => {
         setEdit(false);
+        setSetting(false);
         return t('cancelConfirm');
     }
 
@@ -108,7 +111,11 @@ const HomePage = () => {
     }
 
     const saveHandler = (): string => {
-        saveETA();
+        if (edit) {
+            saveETA();
+        } else {
+            setSetting(false);
+        }
         return t('saveConfirm');
     }
 
@@ -166,35 +173,59 @@ const HomePage = () => {
         }
     }, [search]);
 
+    useEffect(() => {
+        if (setting) {
+            const stored_settings: string = localStorage.getItem("settings") || '{"language":"tc"}';
+            console.log(stored_settings);
+            const setting: Settings = JSON.parse(stored_settings);
+            setSettingConfig(setting);
+        } else {
+            i18n.changeLanguage(settingConfig.language);
+        }
+    }, [setting]);
+
     return <div className="homepage-container">
         {renderConfirm && <Confirm text={confirmText} fuc={confirmFuc} confirm={confirm} setConfirm={setConfirm}/>}
         <div className="homepage-list">
-            {stopETAList.length > 0 && stopETAList.map((stop, index) => {
-                if (stop) {
-                    const time = diffInMinutesFromNow(stop.eta);
-                    return <div className="homepage-stop" key={index}>
-                        <p>{stop.route} {t('to')} {i18n.language === 'tc' ? stop.name_tc : stop.name_en}</p>
-                        {edit ? 
-                            <div className="homepage-edit-menu">
-                                <button className="homepage-edit-btn" disabled={index < 1} onClick={()=>editETA("up", index)}><b>▲</b></button>
-                                <button className="homepage-edit-btn" disabled={index >= stopETAList.length - 1} onClick={()=>editETA("down", index)}><b>▼</b></button>
-                                <button className="homepage-delete-btn" onClick={()=>deleteETA(index)}><b>X</b></button>
-                            </div>
-                        :
-                            <p>{time == "0" ? t('comingSoon') : time}</p>
-                        }
+            {setting ? 
+                <div className="homepage-setting-container">
+                    <div className="homepage-setting-title">
+                        {t('settings')}
                     </div>
-                }
-            })} 
+                    {Object.entries(settingConfig).map(([key, value], index) => {
+                        return <div key={index} className="homepage-setting-config"><p>{key}</p> <p>{value}</p></div>
+                    })}
+                </div> 
+                : 
+                <>
+                    {stopETAList.length > 0 && stopETAList.map((stop, index) => {
+                        if (stop) {
+                            const time = diffInMinutesFromNow(stop.eta);
+                            return <div className="homepage-stop" key={index}>
+                                <p>{stop.route} {t('to')} {i18n.language === 'tc' ? stop.name_tc : stop.name_en}</p>
+                                {edit ? 
+                                    <div className="homepage-edit-menu">
+                                        <button className="homepage-edit-btn" disabled={index < 1} onClick={()=>editETA("up", index)}><b>▲</b></button>
+                                        <button className="homepage-edit-btn" disabled={index >= stopETAList.length - 1} onClick={()=>editETA("down", index)}><b>▼</b></button>
+                                        <button className="homepage-delete-btn" onClick={()=>deleteETA(index)}><b>X</b></button>
+                                    </div>
+                                :
+                                    <p>{time == "0" ? t('comingSoon') : time}</p>
+                                }
+                            </div>
+                        }
+                    })} 
+                </>
+            }
         </div>
         <div className="homepage-menu">
-            {edit ?
+            {edit || setting ?
                 <button onClick={() => cancelListener()} className="homepage-menu-btn">{t('cancel')}</button>
             :
                 <button onClick={() => setEdit(true)} className="homepage-menu-btn">{t('edit')}</button>
             }
             <button onClick={() => setSearch(true)} className="homepage-menu-search-btn" disabled={edit}>{t('search')}</button>
-            {edit ?
+            {edit || setting ?
                 <button onClick={() => saveListener()} className="homepage-menu-btn">{t('save')}</button>
             :
                 <button onClick={() => setSetting(true)} className="homepage-menu-btn">{t('setting')}</button>

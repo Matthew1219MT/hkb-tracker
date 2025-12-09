@@ -59,3 +59,7 @@ export type LocalStorageStop = {
     name_en: string,
     name_sc: string,
 }
+
+export type Settings = {
+    language: string,
+}

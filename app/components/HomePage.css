@@ -118,3 +118,29 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
+.homepage-setting-container {
+  width: 100%;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.homepage-setting-title {
+  color: var(--grey-100);
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.homepage-setting-config {
+  display: flex; /* Makes the container a flex container */
+  justify-content: space-between; /* Distributes space between items, pushing them to the ends */
+  align-items: center;
+  width: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
+}
