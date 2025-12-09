@@ -16,7 +16,9 @@ export const SingleETA: StopETA = {
     "seq": 10,
     "service_type": "1",
     "stop": "000001",
-    "stop_name": "Loading..."
+    "name_tc": "加載中...",
+    "name_en": "Loading...",
+    "name_sc": "加載中...",
 }
 
 export const ETALoading: StopETA[] = [
@@ -36,7 +38,9 @@ export const ETALoading: StopETA[] = [
         "seq": 10,
         "service_type": "1",
         "stop": "000001",
-        "stop_name": "Loading..."
+        "name_tc": "加載中...",
+        "name_en": "Loading...",
+        "name_sc": "加載中...",
     },
     {
         "co": "KMB",
@@ -54,7 +58,9 @@ export const ETALoading: StopETA[] = [
         "seq": 10,
         "service_type": "1",
         "stop": "000001",
-        "stop_name": "Loading..."
+        "name_tc": "加載中...",
+        "name_en": "Loading...",
+        "name_sc": "加載中...",
     },
     {
         "co": "KMB",
@@ -72,6 +78,8 @@ export const ETALoading: StopETA[] = [
         "seq": 10,
         "service_type": "1",
         "stop": "000001",
-        "stop_name": "Loading..."
+        "name_tc": "加載中...",
+        "name_en": "Loading...",
+        "name_sc": "加載中...",
     }
 ]
