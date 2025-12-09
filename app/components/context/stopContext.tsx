@@ -33,7 +33,9 @@ export const StopProvider: React.FC<{children: ReactNode}> = ({children}) => {
             stop.stop === add_stop.stop && 
             stop.route === add_stop.route && 
             stop.service_type === add_stop.service_type &&
-            stop.stop_name === add_stop.stop_name
+            stop.name_en === add_stop.name_en &&
+            stop.name_tc === add_stop.name_tc &&
+            stop.name_sc === add_stop.name_sc
         );
         if (exist) {
             return false;
