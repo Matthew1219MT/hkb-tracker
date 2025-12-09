@@ -9,7 +9,7 @@ i18n
         translation: {
           search: "Search",
           edit: "Edit",
-          setting: "Setting",
+          setting: "Settings",
           cancel: "Cancel",
           save: "Save",
           confirm: "Confirm",
@@ -24,6 +24,8 @@ i18n
           storeError: "",
           comingSoon: "Coming Soon",
           to: "to",
+          language: "Language",
+          loading: "Loading...",
         }
       },
       tc: {
@@ -44,7 +46,9 @@ i18n
           storeConfirm: "成功儲存巴士站",
           storeError: "這個巴士站已被儲存",
           comingSoon: "即將抵達",
-          tp: "往",
+          to: "往",
+          language: "語言",
+          loading: "加載中...",
         }
       }
     },

@@ -1,6 +1,9 @@
 'use client'
 import { useEffect, useState } from "react";
 import { StopETA, LocalStorageStop } from "./types";
+import i18n from "../i18n";
+import { useTranslation } from "react-i18next";
+
 export const BaseUrl: string = "https://data.etabus.gov.hk/";
 
 export function removeBracketed(text: string): string {
@@ -8,9 +11,6 @@ export function removeBracketed(text: string): string {
 }
 
 export const diffInMinutesFromNow = (isoString: string): string | number => {
-    if (isoString === "Loading...") {
-        return isoString;
-    }
     const future = new Date(isoString);
     const now = new Date();
     const diffMs = future.getTime() - now.getTime();

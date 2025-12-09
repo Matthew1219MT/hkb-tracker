@@ -190,17 +190,21 @@ const HomePage = () => {
             {setting ? 
                 <div className="homepage-setting-container">
                     <div className="homepage-setting-title">
-                        {t('settings')}
+                        {t('setting')}
                     </div>
-                    {Object.entries(settingConfig).map(([key, value], index) => {
-                        return <div key={index} className="homepage-setting-config"><p>{key}</p> <p>{value}</p></div>
-                    })}
+                    <div className="homepage-setting-config">
+                        <p>{t('language')}</p> 
+                        <select defaultValue={settingConfig.language}>
+                            <option value="tc">繁體中文</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
                 </div> 
                 : 
                 <>
                     {stopETAList.length > 0 && stopETAList.map((stop, index) => {
                         if (stop) {
-                            const time = diffInMinutesFromNow(stop.eta);
+                            const time = stop.eta === 'Loading...' ? t('loading') : diffInMinutesFromNow(stop.eta);
                             return <div className="homepage-stop" key={index}>
                                 <p>{stop.route} {t('to')} {i18n.language === 'tc' ? stop.name_tc : stop.name_en}</p>
                                 {edit ? 

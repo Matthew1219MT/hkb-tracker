@@ -32,6 +32,7 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
 
     const { addStop } = useStop();
 
+    //Set selected stop
     const setStopListener = (stop: Stop) => {
         if (stop === selectedStop) {
             setSelectedStop(null);
@@ -40,6 +41,7 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         }
     }
 
+    //Event handler for adding stop
     const addStopHandler = (stop: Stop): string => {
         const new_stop: LocalStorageStop = {
             stop: stop.stop,
@@ -57,6 +59,7 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         }
     }
 
+    //Event listener for adding stop
     const addStopListener = (stop: Stop) => {
         setConfirmFuc(() => () => addStopHandler(stop));
         setConfirmText(t("storePrompt"));
@@ -131,7 +134,7 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
                         </div>
                         <div className="stop-display-ETA-list">
                             {stop.stop === selectedStop?.stop && stopETA.length > 0 && stopETA.map((ETA, i) => {
-                                const time = diffInMinutesFromNow(ETA.eta);
+                                const time = ETA.eta === 'Loading...' ? t('loading') : diffInMinutesFromNow(ETA.eta);
                                 return <div key={i} className="stop-display-stop-ETA">{ time == "0" ? t('comingSoon') : time}</div>
                             })}
                         </div>
