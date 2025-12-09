@@ -46,12 +46,16 @@ export type StopETA = {
     rmk_tc: string,
     rmk_sc: string,
     data_timestamp: string,
-    stop_name: string,
+    name_tc: string,
+    name_en: string,
+    name_sc: string,
 }
 
 export type LocalStorageStop = {
     stop: string,
     route: string,
     service_type: string,
-    stop_name: string,
+    name_tc: string,
+    name_en: string,
+    name_sc: string,
 }

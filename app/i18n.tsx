@@ -23,6 +23,7 @@ i18n
           storeConfirm: "Stop saved",
           storeError: "",
           comingSoon: "Coming Soon",
+          to: "to",
         }
       },
       tc: {
@@ -42,11 +43,12 @@ i18n
           storePrompt: "你要儲存這個巴士站嗎？",
           storeConfirm: "成功儲存巴士站",
           storeError: "這個巴士站已被儲存",
-          comingSoon: "即將抵達"
+          comingSoon: "即將抵達",
+          tp: "往",
         }
       }
     },
-    lng: 'tc',
+    lng: 'en',
     fallbackLng: 'en',
     interpolation: { escapeValue: false }
   });

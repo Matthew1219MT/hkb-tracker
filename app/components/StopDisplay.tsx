@@ -40,12 +40,14 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         }
     }
 
-    const addStopHandler = (stop: string, stop_name: string): string => {
-        const new_stop = {
-            stop: stop,
+    const addStopHandler = (stop: Stop): string => {
+        const new_stop: LocalStorageStop = {
+            stop: stop.stop,
             route: selectedRoute.route,
             service_type: selectedRoute.service_type,
-            stop_name: stop_name
+            name_en: removeBracketed(stop.name_en),
+            name_tc: removeBracketed(stop.name_tc),
+            name_sc: removeBracketed(stop.name_sc),
         };
         const result: boolean = addStop(new_stop);
         if (result) {
@@ -55,8 +57,8 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         }
     }
 
-    const addStopListener = (stop: string, stop_name: string) => {
-        setConfirmFuc(() => () => addStopHandler(stop, stop_name));
+    const addStopListener = (stop: Stop) => {
+        setConfirmFuc(() => () => addStopHandler(stop));
         setConfirmText(t("storePrompt"));
         setConfirm(true);
     }
@@ -68,22 +70,29 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
                 stop: selectedStop.stop,
                 service_type: selectedRoute.service_type,
                 route: selectedRoute.route,
-                stop_name: selectedStop.name_tc
+                name_en: selectedStop.name_en,
+                name_tc: selectedStop.name_tc,
+                name_sc: selectedStop.name_sc,
             }
             getStopETA(stop).then(
                 (eta_list: StopETA[]) => {
-                    setStopETA(eta_list);
+                    const valid_eta_list = eta_list.filter((eta) => eta.dir === selectedRoute.bound);
+                    setStopETA(valid_eta_list);
                 }
             );    
         }
     }
 
     useEffect(() => {
-        const periodicTask = setInterval(() => {
-            getStopHandler();
-        }, 60000);
-        return () => clearInterval(periodicTask);
-    }, []);
+        const interval = setInterval(() => {
+            const now = new Date();
+            if (now.getSeconds() === 0) {
+                getStopHandler();
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [selectedStop]);
 
     useEffect(() => {
         getStopHandler();
@@ -109,10 +118,10 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
                     <div key={index}>
                         <div className="stop-display-stop">
                             <div className="stop-display-stop-text">
-                                {removeBracketed(stop.name_tc)}
+                                {removeBracketed(i18n.language === 'tc' ? stop.name_tc : stop.name_en)}
                             </div>
                             <div className="stop-display-btn-list">
-                                <button className="stop-display-btn" onClick={()=>{addStopListener(stop.stop, removeBracketed(stop.name_tc))}}>+</button>
+                                <button className="stop-display-btn" onClick={()=>{addStopListener(stop)}}>+</button>
                                 {stop.stop === selectedStop?.stop ? 
                                     <button className="stop-display-btn" onClick={() => {setStopListener(stop)}}>▲</button>
                                 :
@@ -122,7 +131,8 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
                         </div>
                         <div className="stop-display-ETA-list">
                             {stop.stop === selectedStop?.stop && stopETA.length > 0 && stopETA.map((ETA, i) => {
-                                return <div key={i} className="stop-display-stop-ETA">{diffInMinutesFromNow(ETA.eta)}</div>
+                                const time = diffInMinutesFromNow(ETA.eta);
+                                return <div key={i} className="stop-display-stop-ETA">{ time == "0" ? t('comingSoon') : time}</div>
                             })}
                         </div>
                     </div>

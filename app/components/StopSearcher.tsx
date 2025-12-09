@@ -83,7 +83,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
             })
             .then((data: any) => {
                 const route_list: Route[] = data.data;
-                const unique_route_list: string[] = getAvailableRouteAndChr(route_list);
+                // const unique_route_list: string[] = getAvailableRouteAndChr(route_list);
                 setRouteList(route_list);
             })
             .catch((e) => {
@@ -167,7 +167,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
                     <div className="stop-searcher-section-2">
                         <div className="stop-searcher-s2-container">
                             {availableRoute.length > 0 && availableRoute.map((route, index) => {
-                                return <button className="stop-searcher-route-btn" key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>{route.route} {route.dest_tc}</button>
+                                return <button className="stop-searcher-route-btn" key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>{route.route} {t('to')} {i18n.language === 'tc' ? route.dest_tc : route.dest_en}</button>
                             })}
                         </div>
                     </div>

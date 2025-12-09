@@ -60,8 +60,10 @@ const HomePage = () => {
             new_local_storage_stop.push({
                 route: stop.route,
                 service_type: stop.service_type,
+                name_en: stop.name_en,
+                name_tc: stop.name_tc,
+                name_sc: stop.name_sc,
                 stop: stop.stop,
-                stop_name: stop.stop_name
             });
         })
         updateStopList(new_local_storage_stop);
@@ -76,7 +78,9 @@ const HomePage = () => {
             fake_eta.route = stop.route;
             fake_eta.service_type = stop.service_type;
             fake_eta.stop = stop.stop;
-            fake_eta.stop_name = stop.stop_name;
+            fake_eta.name_en = stop.name_en;
+            fake_eta.name_tc = stop.name_tc;
+            fake_eta.name_sc = stop.name_sc;
             dummy_data.push(fake_eta);
         });
         setStopETAList(dummy_data);
@@ -169,7 +173,7 @@ const HomePage = () => {
                 if (stop) {
                     const time = diffInMinutesFromNow(stop.eta);
                     return <div className="homepage-stop" key={index}>
-                        <p>{stop.route} {stop.stop_name}</p>
+                        <p>{stop.route} {t('to')} {i18n.language === 'tc' ? stop.name_tc : stop.name_en}</p>
                         {edit ? 
                             <div className="homepage-edit-menu">
                                 <button className="homepage-edit-btn" disabled={index < 1} onClick={()=>editETA("up", index)}><b>▲</b></button>

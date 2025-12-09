@@ -22,6 +22,9 @@
   color: var(--main-100);
   font-weight: bold;
   border: 2px solid var(--main-100);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .homepage-edit-menu {

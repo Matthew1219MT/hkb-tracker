@@ -29,7 +29,9 @@ export const getStopETA = async (stop: LocalStorageStop) => {
         const eta_list: StopETA[] = data.data;
         eta_list.forEach((stop_eta)=>{
             stop_eta.stop = stop.stop;
-            stop_eta.stop_name = stop.stop_name;
+           stop_eta.name_en = stop.name_en;
+           stop_eta.name_tc = stop.name_tc;
+           stop_eta.name_sc = stop.name_sc;
         });
         return eta_list;
     }
