@@ -17,13 +17,11 @@ export const StopProvider: React.FC<{children: ReactNode}> = ({children}) => {
 
     useEffect(() => {
         if (firstLoad) {
-            console.log("Loading stop list from localStorage");
             const stored_stops = localStorage.getItem("stopList") || "[]";
             const stop_list: LocalStorageStop[] = JSON.parse(stored_stops);
             setStopList(stop_list);
             setFirstLoad(false);
         } else {
-            console.log("Updating localStorage with stop list changes");
             localStorage.setItem("stopList", JSON.stringify(stopList));
         }
     }, [stopList]);

@@ -1,3 +1,4 @@
+import { clear } from 'console';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
@@ -26,6 +27,12 @@ i18n
           to: "to",
           language: "Language",
           loading: "Loading...",
+          clearStop: "Clear all saved stops",
+          clearSetting: "Clear all settings",
+          clearStopConfirm: "Do you want to clear all saved stops?",
+          clearStopPrompt: "All stops have been cleared",
+          clearSettingConfirm: "Do you want to clear all settings?",
+          clearSettingPrompt: "ALl settings have been cleared",
         }
       },
       tc: {
@@ -49,10 +56,16 @@ i18n
           to: "往",
           language: "語言",
           loading: "加載中...",
+          clearStop: "清除所有已儲存的巴士站",
+          clearSetting: "清除所有設定",
+          clearStopConfirm: "你確定要清除所有已儲存的巴士站嗎？",
+          clearStopPrompt: "所有已儲存的巴士站已被清除",
+          clearSettingConfirm: "你確定要清除所有設定嗎？",
+          clearSettingPrompt: "所有設定已被清除",
         }
       }
     },
-    lng: 'en',
+    lng: 'tc',
     fallbackLng: 'en',
     interpolation: { escapeValue: false }
   });

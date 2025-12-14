@@ -1,4 +1,8 @@
-import { StopETA } from "./types";
+import { Settings, StopETA } from "./types";
+
+export const defautSettings: Settings = {
+    language: "tc",
+}
 
 export const SingleETA: StopETA = {
     "co": "KMB",

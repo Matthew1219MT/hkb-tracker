@@ -6,9 +6,10 @@ import { useStop } from "./context/stopContext";
 import { LocalStorageStop, Settings, StopETA } from "./types";
 import "./HomePage.css";
 import { diffInMinutesFromNow, getStopETA } from "./utilities";
-import { SingleETA } from "./LoadData";
+import { SingleETA, defautSettings } from "./LoadData";
 import Confirm from "./Confirm";
 import { useTranslation } from 'react-i18next';
+import Setting from "./Setting";
 
 const HomePage = () => {
 
@@ -24,7 +25,7 @@ const HomePage = () => {
 
     const [setting, setSetting] = useState<boolean>(false);
 
-    const [settingConfig, setSettingConfig] = useState<Settings>({language: 'tc'});
+    const [settingConfig, setSettingConfig] = useState<Settings | null>(null);
 
     const [confirmText, setConfirmText] = useState<string>('Confirm Text');
 
@@ -125,6 +126,36 @@ const HomePage = () => {
         setConfirm(true);
     }
 
+    const loadSettings = () => {
+        const stored_settings: string = localStorage.getItem("settings") ?? '{"language":"tc"}';
+        const setting: Settings = JSON.parse(stored_settings);
+        console.log('Loaded settings:', setting);
+        setSettingConfig(setting);
+    }
+
+    const clearStops = () => {
+        setConfirmFuc(() => clearStopsHandler);
+        setConfirmText(t('clearStopConfirm'));
+        setConfirm(true);
+    }
+
+    const clearStopsHandler = (): string => {
+        updateStopList([]);
+        return t('clearStopPrompt');
+    }
+
+    const clearSettings = () => {
+        setConfirmFuc(() => clearSettingsHandler);
+        setConfirmText(t('clearSettingConfirm'));
+        setConfirm(true);
+    }
+
+    const clearSettingsHandler = (): string => {
+        localStorage.setItem("settings", JSON.stringify(defautSettings));
+        setSettingConfig(defautSettings);
+        return t('clearSettingPrompt');
+    }
+
     useEffect(() => {
         const interval = setInterval(() => {
             const now = new Date();
@@ -175,31 +206,25 @@ const HomePage = () => {
 
     useEffect(() => {
         if (setting) {
-            const stored_settings: string = localStorage.getItem("settings") || '{"language":"tc"}';
-            console.log(stored_settings);
-            const setting: Settings = JSON.parse(stored_settings);
-            setSettingConfig(setting);
+            loadSettings();
         } else {
-            i18n.changeLanguage(settingConfig.language);
+            if (settingConfig) {
+                localStorage.setItem("settings", JSON.stringify(settingConfig));
+            }
         }
     }, [setting]);
+
+    useEffect(() => {
+        if (settingConfig) {
+            i18n.changeLanguage(settingConfig.language);
+        }
+    }, [settingConfig]);
 
     return <div className="homepage-container">
         {renderConfirm && <Confirm text={confirmText} fuc={confirmFuc} confirm={confirm} setConfirm={setConfirm}/>}
         <div className="homepage-list">
             {setting ? 
-                <div className="homepage-setting-container">
-                    <div className="homepage-setting-title">
-                        {t('setting')}
-                    </div>
-                    <div className="homepage-setting-config">
-                        <p>{t('language')}</p> 
-                        <select defaultValue={settingConfig.language}>
-                            <option value="tc">繁體中文</option>
-                            <option value="en">English</option>
-                        </select>
-                    </div>
-                </div> 
+                <Setting settingConfig={settingConfig} setSettingConfig={setSettingConfig} clearSettings={clearSettings} clearStops={clearStops}/>
                 : 
                 <>
                     {stopETAList.length > 0 && stopETAList.map((stop, index) => {
