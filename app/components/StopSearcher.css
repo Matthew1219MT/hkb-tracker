@@ -2,58 +2,11 @@
     position: absolute;
     inset: 0;
     z-index: 10;
-    pointer-events: none;
     width: 100vw !important;
     display: flex;
     flex-direction: column;  
     width: 100vw;
     background-color: var(--secondary-100);
-}
-
-.search-fade-in {
-  opacity: 0;
-  transform: translateY(100%);
-  animation: searchFadeOut 0.5s ease forwards;
-  height: 0vh;
-}
-
-.search-fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  height: 100vh;
-  animation: searchFadeIn 0.5s ease forwards;
-}
-
-.search-fade-in:not(.visible) {
-  opacity: 0;
-  transform: translateY(100%);
-  animation: searchFadeOut 0.5s ease forwards;
-  height: 0vh;
-}
-
-@keyframes searchFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(100%);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes searchFadeOut {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateY(100%);
-    }
 }
 
 .stop-searcher-section-1 {

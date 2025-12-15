@@ -260,7 +260,9 @@ const HomePage = () => {
                 <button onClick={() => setSetting(true)} className="homepage-menu-btn">{t('setting')}</button>
             }
         </div>
-        <StopSearcher search={search} setSearch={setSearch} />
+        <div className={`slide-panel ${search ? 'active' : ''}`}>
+            <StopSearcher search={search} setSearch={setSearch} />
+        </div>
     </div>
 }
 

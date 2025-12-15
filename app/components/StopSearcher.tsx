@@ -154,7 +154,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
         }
     }, [stopList]);
 
-    return <div className={`stop-searcher-container search-fade-in ${search ? 'visible' : ''}`}>
+    return <div className={`stop-searcher-container`}>
         {
             stopList.length > 0 ? <>{selectedRoute && <StopDisplay stopList={stopList} setStopList={setStopList} selectedRoute={selectedRoute} />}</> :
                 <>
