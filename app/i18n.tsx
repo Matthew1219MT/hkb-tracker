@@ -33,6 +33,8 @@ i18n
           clearStopPrompt: "All stops have been cleared",
           clearSettingConfirm: "Do you want to clear all settings?",
           clearSettingPrompt: "ALl settings have been cleared",
+          mins: 'mins',
+          special: 'Special'
         }
       },
       tc: {
@@ -62,6 +64,8 @@ i18n
           clearStopPrompt: "所有已儲存的巴士站已被清除",
           clearSettingConfirm: "你確定要清除所有設定嗎？",
           clearSettingPrompt: "所有設定已被清除",
+          mins: '分鐘',
+          special: '特別班'
         }
       }
     },

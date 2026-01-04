@@ -137,3 +137,9 @@
 .slide-panel.active {
   transform: translateY(0);
 }
+
+.homepage-stop-info {
+  overflow: hidden;
+  text-overflow: 'ellipsis';
+  white-space: 'nowrap';
+}

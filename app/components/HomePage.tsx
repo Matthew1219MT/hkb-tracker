@@ -157,6 +157,10 @@ const HomePage = () => {
     }
 
     useEffect(() => {
+        loadSettings();
+    }, []);
+
+    useEffect(() => {
         const interval = setInterval(() => {
             const now = new Date();
             if (now.getSeconds() === 0) {
@@ -231,7 +235,7 @@ const HomePage = () => {
                         if (stop) {
                             const time = stop.eta === 'Loading...' ? t('loading') : diffInMinutesFromNow(stop.eta);
                             return <div className="homepage-stop" key={index}>
-                                <p>{stop.route} {t('to')} {i18n.language === 'tc' ? stop.name_tc : stop.name_en}</p>
+                                <p className="homepage-stop-info">{stop.route} {t('to')} {i18n.language === 'tc' ? stop.name_tc : stop.name_en}</p>
                                 {edit ? 
                                     <div className="homepage-edit-menu">
                                         <button className="homepage-edit-btn" disabled={index < 1} onClick={()=>editETA("up", index)}><b>▲</b></button>
@@ -239,7 +243,7 @@ const HomePage = () => {
                                         <button className="homepage-delete-btn" onClick={()=>deleteETA(index)}><b>X</b></button>
                                     </div>
                                 :
-                                    <p>{time == "0" ? t('comingSoon') : time}</p>
+                                    <p>{time == "0" ? t('comingSoon') : <>{time} {t('mins')}</>}</p>
                                 }
                             </div>
                         }

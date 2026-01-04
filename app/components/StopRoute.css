@@ -1,0 +1,21 @@
+.stop-route-container {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 8px;
+}
+
+.stop-route-route {
+    height: 100%; 
+    line-height: 46px;
+}
+
+.stop-route-route-special {
+    height: 100%; 
+    line-height: 23px;
+}
+
+.stop-route-detail {
+    overflow: hidden;
+}

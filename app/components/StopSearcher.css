@@ -86,8 +86,6 @@
 }
 
 .stop-searcher-route-btn {
-    white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
     background-color: var(--main-50);
@@ -95,7 +93,7 @@
     text-align: left;
     padding-left: 10px;
     padding-right: 10px;
-    height: 15%;
+    height: 50px;
     margin-bottom: 4px;
     border: 2px solid var(--main-100);
     border-radius: 12px;

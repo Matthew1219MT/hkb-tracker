@@ -6,6 +6,7 @@ import InputPad from './InputPad';
 import { Route, Stop, RouteStop } from './types';
 import StopDisplay from './StopDisplay'
 import { useTranslation } from 'react-i18next';
+import StopRoute from './StopRoute';
 
 type props = {
     search: boolean,
@@ -146,6 +147,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
 
     useEffect(() => {
         updateAvailableRouteAndChr(inputRoute);
+        console.log(routeList);
     }, [routeList, inputRoute])
 
     useEffect(() => {
@@ -167,7 +169,9 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
                     <div className="stop-searcher-section-2">
                         <div className="stop-searcher-s2-container">
                             {availableRoute.length > 0 && availableRoute.map((route, index) => {
-                                return <button className="stop-searcher-route-btn" key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>{route.route} {t('to')} {i18n.language === 'tc' ? route.dest_tc : route.dest_en}</button>
+                                return <button className="stop-searcher-route-btn" key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>
+                                    <StopRoute route={route}/>
+                                </button>
                             })}
                         </div>
                     </div>
