@@ -33,7 +33,7 @@ export const getStopETA = async (stop: LocalStorageStop) => {
            stop_eta.name_tc = stop.name_tc;
            stop_eta.name_sc = stop.name_sc;
         });
-        return eta_list;
+        return eta_list.slice(0,3);
     }
 }
 

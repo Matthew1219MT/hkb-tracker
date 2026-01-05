@@ -110,31 +110,55 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
                 return response.json();
             })
             .then((data: any) => {
-                const rout_stop_list: RouteStop[] = data.data;
-                const stop_list: Stop[] = [];
+                const route_stop_list: RouteStop[] = data.data;
+                const unique_stops = Array.from(
+                    new Map(route_stop_list.map(item => [item.stop, item])).values()
+                );
+                console.log(unique_stops);
                 let promises: Promise<Response>[] = [];
-                rout_stop_list.forEach((stop: RouteStop) => {
+                unique_stops.forEach((stop: RouteStop) => {
                     const id = stop.stop;
                     const stop_url: string = `${BaseUrl}v1/transport/kmb/stop/${id}`;
                     promises.push(fetch(stop_url, { method: "get" }));
                 });
                 Promise.all(promises)
-                    .then((responses) => {
-                        responses.forEach((response) => {
-                            if (!response.ok) {
-                                console.error("Failed to fetch");
-                            } else {
-                                response.json().then((data: any) => {
-                                    const stop_info: Stop = data.data;
-                                    stop_list.push(stop_info);
-                                    setStopList(stop_list);
-                                });
-                            }
-                        })
-                    })
-                    .catch((e) => {
-                        console.log(e);
+                .then((responses) => {
+                    // Create an array of promises for json parsing
+                    const jsonPromises = responses.map((response) => {
+                        if (!response.ok) {
+                            console.error("Failed to fetch");
+                            return null;
+                        }
+                        return response.json();
                     });
+                    
+                    // Wait for all JSON parsing to complete
+                    return Promise.all(jsonPromises);
+                })
+                .then((dataArray) => {
+                    // Now all data is available
+                    const stop_list: Stop[] = dataArray
+                        .filter((data) => data !== null)
+                        .map((data: any) => data.data as Stop);
+                
+
+                    // Sort based on route_stop_list order
+                    const orderMap = new Map(
+                        unique_stops.map((stop, index) => [stop.stop, index])
+                    );
+                    
+                    const sortedStopList = stop_list.sort((a, b) => {
+                        const index_a = orderMap.get(a.stop) ?? Infinity;
+                        const index_b = orderMap.get(b.stop) ?? Infinity;
+                        return index_a - index_b;
+                    });
+                    
+                    console.log(sortedStopList);
+                    setStopList(sortedStopList);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
             })
             .catch((e) => {
                 console.log(e);
@@ -154,6 +178,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
         if (stopList.length === 0) {
             setGettingStopList(false);
         }
+        console.log(stopList);
     }, [stopList]);
 
     return <div className={`stop-searcher-container`}>
