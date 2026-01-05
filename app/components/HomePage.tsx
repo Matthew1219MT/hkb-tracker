@@ -16,28 +16,36 @@ const HomePage = () => {
 
     const { t, i18n } = useTranslation();
 
+    //Boolean state for search mode
     const [search, setSearch] = useState<boolean>(false);
 
-    const [renderSearch, setRenderSearch] = useState<boolean>(false);
-
+    //State for list of stop ETAs
     const [stopETAList, setStopETAList] = useState<StopETA[]>([]);
 
+    //Boolean state for edit mode
     const [edit, setEdit] = useState<boolean>(false);
 
+    //Boolean state for settings mode
     const [setting, setSetting] = useState<boolean>(false);
 
+    //State for local settings configuration, overwrites setting in local storage on change
     const [settingConfig, setSettingConfig] = useState<Settings | null>(null);
 
+    //State for confirmation prompt
     const [confirmText, setConfirmText] = useState<string>('Confirm Text');
 
+    //Boolean state for confirmation prompt
     const [confirm, setConfirm] = useState<boolean>(false);
 
+    //State to control rendering of Confirm component for animation
     const [renderConfirm, setRenderConfirm] = useState<boolean>(false);
 
+    //State for holding method to be executed on confirmation
     const [confirmFuc, setConfirmFuc] = useState<(...args: any[]) => string>(()=>{return ''});
 
     const { stopList, updateStopList } = useStop();
 
+    //Method to edit order of ETA list
     const editETA = (direction: "up" | "down", index: number) => {
         const stop_eta_list: StopETA[] = [...stopETAList]
         if (direction === "up") {
@@ -52,12 +60,14 @@ const HomePage = () => {
         setStopETAList(stop_eta_list);
     }
 
+    //Method to remove ETA from list
     const deleteETA = (index: number) => {
         const stop_eta_list: StopETA[] = [...stopETAList];
         stop_eta_list.splice(index, 1);
         setStopETAList(stop_eta_list);
     }
 
+    //Method for saving edited ETA list to local storage 
     const saveETA = () => {
         const new_local_storage_stop: LocalStorageStop[] = [];
         stopETAList.forEach((stop, index)=> {
@@ -77,9 +87,11 @@ const HomePage = () => {
         setEdit(false);
     }
 
+    //Method for updating ETA list from API calls
     const updateETA = () => {
-        const dummy_data: StopETA[] = [];
         const stop_list: LocalStorageStop[] = stopList;
+        //Create dummy data to render before API response
+        const dummy_data: StopETA[] = [];
         stop_list.forEach(stop => {
             const fake_eta: StopETA = { ...SingleETA };
             fake_eta.route = stop.route;
@@ -94,10 +106,12 @@ const HomePage = () => {
             dummy_data.push(fake_eta);
         });
         setStopETAList(dummy_data);
+        //Fetch the real ETA data
         Promise.all(
             stop_list.map(stop =>
                 getStopETA(stop)
                 .then((eta_list) => {
+                    //Only return the nearest ETA result
                     return eta_list.filter((eta) => eta.eta_seq === 1)[0];
                 })
             )
@@ -106,18 +120,21 @@ const HomePage = () => {
         });
     }
 
+    //Event handler for cancel button
     const cancelHandler = (): string => {
         setEdit(false);
         setSetting(false);
         return t('cancelConfirm');
     }
 
+    //Event listener for cancel button
     const cancelListener = () => {
         setConfirmFuc(() => cancelHandler);
         setConfirmText(t('cancelPrompt'));
         setConfirm(true);
     }
 
+    //Event handler for saving ETA
     const saveHandler = (): string => {
         if (edit) {
             saveETA();
@@ -127,46 +144,53 @@ const HomePage = () => {
         return t('saveConfirm');
     }
 
+    //Event listener for saving ETA
     const saveListener = () => {
         setConfirmFuc(() => saveHandler);
         setConfirmText(t('savePrompt'));
         setConfirm(true);
     }
 
+    //Load settings from local storage
     const loadSettings = () => {
         const stored_settings: string = localStorage.getItem("settings") ?? '{"language":"tc"}';
         const setting: Settings = JSON.parse(stored_settings);
-        console.log('Loaded settings:', setting);
         setSettingConfig(setting);
     }
 
+    //Clear all saved stops with confirmation prompt
     const clearStops = () => {
         setConfirmFuc(() => clearStopsHandler);
         setConfirmText(t('clearStopConfirm'));
         setConfirm(true);
     }
 
+    //Event handler for clearing all saved stops
     const clearStopsHandler = (): string => {
         updateStopList([]);
         return t('clearStopPrompt');
     }
 
+    //Clear settings to default with confirmation prompt
     const clearSettings = () => {
         setConfirmFuc(() => clearSettingsHandler);
         setConfirmText(t('clearSettingConfirm'));
         setConfirm(true);
     }
 
+    //Event handler for clearing settings in local storage
     const clearSettingsHandler = (): string => {
         localStorage.setItem("settings", JSON.stringify(defautSettings));
         setSettingConfig(defautSettings);
         return t('clearSettingPrompt');
     }
 
+    //Load settings on initial render
     useEffect(() => {
         loadSettings();
     }, []);
 
+    //Update ETA per minute
     useEffect(() => {
         const interval = setInterval(() => {
             const now = new Date();
@@ -178,25 +202,19 @@ const HomePage = () => {
         return () => clearInterval(interval);
     }, [stopList]);
 
+    //Update ETA when stop list changes
     useEffect(() => {
         updateETA();
     }, [stopList]);
 
-    useEffect(() => {
-        if (search) {
-            setRenderSearch(true);
-        } else {
-            const timer = setTimeout(() => setRenderSearch(false), 400);
-            return () => clearTimeout(timer);
-        }
-    }, [search]);
-
+    //Update ETA when exiting edit mode
     useEffect(() => {
         if (!edit) {
             updateETA();
         }
     }, [edit]);
 
+    //Control rendering of Confirm component for animation
     useEffect(() => {
         if (confirm) {
             setRenderConfirm(true);
@@ -206,15 +224,7 @@ const HomePage = () => {
         }
     }, [confirm]);
 
-    useEffect(() => {
-        if (search) {
-            setRenderSearch(true);
-        } else {
-            const timer = setTimeout(() => setRenderSearch(false), 1000);
-            return () => clearTimeout(timer);
-        }
-    }, [search]);
-
+    //Save settings to local storage on change
     useEffect(() => {
         if (setting) {
             loadSettings();
@@ -225,6 +235,7 @@ const HomePage = () => {
         }
     }, [setting]);
 
+    //Update i18n language on settings change
     useEffect(() => {
         if (settingConfig) {
             i18n.changeLanguage(settingConfig.language);

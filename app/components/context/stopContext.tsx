@@ -12,10 +12,10 @@ const StopContext = createContext<StopContextType | undefined>(undefined);
 export const StopProvider: React.FC<{children: ReactNode}> = ({children}) => {
 
     const [stopList, setStopList] = useState<LocalStorageStop[]>([]);
-
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
 
     useEffect(() => {
+        //Load instead of update for first load to prevent overwriting existing data
         if (firstLoad) {
             const stored_stops = localStorage.getItem("stopList") || "[]";
             const stop_list: LocalStorageStop[] = JSON.parse(stored_stops);
@@ -26,6 +26,7 @@ export const StopProvider: React.FC<{children: ReactNode}> = ({children}) => {
         }
     }, [stopList]);
     
+    //Add new stop to local storage if not exist
     const addStop = (add_stop: LocalStorageStop) => {
         const exist = stopList.some((stop) => 
             stop.stop === add_stop.stop && 
@@ -43,6 +44,7 @@ export const StopProvider: React.FC<{children: ReactNode}> = ({children}) => {
         }
     }
 
+    //Update entire stop list in local storage
     const updateStopList = (new_stop_list: LocalStorageStop[]) => {
         setStopList(new_stop_list);
         return true;

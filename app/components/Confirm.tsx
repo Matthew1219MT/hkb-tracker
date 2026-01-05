@@ -10,6 +10,7 @@ type props = {
     setConfirm: Dispatch<SetStateAction<boolean>>;
 }
 
+//Modulated component for confirmation dialog
 const Confirm: React.FC<props> = ({text, fuc, confirm, setConfirm}) => {
 
     const { t, i18n } = useTranslation();
