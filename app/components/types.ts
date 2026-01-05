@@ -58,6 +58,9 @@ export type LocalStorageStop = {
     name_tc: string,
     name_en: string,
     name_sc: string,
+    dest_en: string,
+    dest_sc: string,
+    dest_tc: string,
 }
 
 export type Settings = {

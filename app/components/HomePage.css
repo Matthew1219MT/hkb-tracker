@@ -15,7 +15,7 @@
   overflow: hidden;
   padding-left: 10px;
   padding-right: 10px;
-  height: 6%;
+  height: 50px;
   margin: 1vw;
   align-items: center;
   border-radius: 12px;
@@ -30,7 +30,8 @@
 .homepage-edit-menu {
   display: flex;
   justify-content: space-evenly;
-  height: 95%;
+  height: 100%;
+  align-items: center;
 }
 
 .homepage-delete-btn {
@@ -39,6 +40,7 @@
   border-radius: 12px;
   aspect-ratio: 1 / 1;
   margin-left: 10px;
+  height: 36px;
 }
 
 .homepage-delete-btn:disabled {
@@ -49,7 +51,7 @@
 .homepage-edit-btn {
   background-color: var(--secondary-30);
   color: var(--secondary-50);
-  height: 100%;
+  height: 36px;
   border-radius: 12px;
   aspect-ratio: 1 / 1;
   margin-left: 10px;

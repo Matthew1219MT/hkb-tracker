@@ -10,6 +10,7 @@ import { SingleETA, defautSettings } from "./LoadData";
 import Confirm from "./Confirm";
 import { useTranslation } from 'react-i18next';
 import Setting from "./Setting";
+import StopRoute from "./StopRoute";
 
 const HomePage = () => {
 
@@ -66,6 +67,9 @@ const HomePage = () => {
                 name_en: stop.name_en,
                 name_tc: stop.name_tc,
                 name_sc: stop.name_sc,
+                dest_en: stop.dest_en,
+                dest_sc: stop.dest_sc,
+                dest_tc: stop.dest_tc,
                 stop: stop.stop,
             });
         })
@@ -84,6 +88,9 @@ const HomePage = () => {
             fake_eta.name_en = stop.name_en;
             fake_eta.name_tc = stop.name_tc;
             fake_eta.name_sc = stop.name_sc;
+            fake_eta.dest_en = stop.dest_en;
+            fake_eta.dest_sc = stop.dest_sc;
+            fake_eta.dest_tc = stop.dest_tc;
             dummy_data.push(fake_eta);
         });
         setStopETAList(dummy_data);
@@ -235,7 +242,7 @@ const HomePage = () => {
                         if (stop) {
                             const time = stop.eta === 'Loading...' ? t('loading') : diffInMinutesFromNow(stop.eta);
                             return <div className="homepage-stop" key={index}>
-                                <p className="homepage-stop-info">{stop.route} {t('to')} {i18n.language === 'tc' ? stop.name_tc : stop.name_en}</p>
+                                <StopRoute route={{route: stop.route, dest_en: stop.dest_en, dest_sc: stop.dest_sc, dest_tc: stop.dest_tc, bound: 'I', orig_en: stop.name_en , orig_sc: stop.name_sc, orig_tc: stop.name_tc, service_type: stop.service_type}}></StopRoute>
                                 {edit ? 
                                     <div className="homepage-edit-menu">
                                         <button className="homepage-edit-btn" disabled={index < 1} onClick={()=>editETA("up", index)}><b>▲</b></button>

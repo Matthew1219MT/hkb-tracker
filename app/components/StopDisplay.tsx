@@ -50,6 +50,9 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
             name_en: removeBracketed(stop.name_en),
             name_tc: removeBracketed(stop.name_tc),
             name_sc: removeBracketed(stop.name_sc),
+            dest_en: selectedRoute.dest_en,
+            dest_sc: selectedRoute.dest_sc,
+            dest_tc: selectedRoute.dest_tc,
         };
         const result: boolean = addStop(new_stop);
         if (result) {
@@ -76,6 +79,9 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
                 name_en: selectedStop.name_en,
                 name_tc: selectedStop.name_tc,
                 name_sc: selectedStop.name_sc,
+                dest_en: selectedRoute.dest_en,
+                dest_sc: selectedRoute.dest_sc,
+                dest_tc: selectedRoute.dest_tc,
             }
             getStopETA(stop).then(
                 (eta_list: StopETA[]) => {
