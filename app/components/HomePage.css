@@ -25,6 +25,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  gap: 8px;
 }
 
 .homepage-edit-menu {

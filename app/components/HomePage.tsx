@@ -254,6 +254,7 @@ const HomePage = () => {
                             const time = stop.eta === 'Loading...' ? t('loading') : diffInMinutesFromNow(stop.eta);
                             return <div className="homepage-stop" key={index}>
                                 <StopRoute route={{route: stop.route, dest_en: stop.dest_en, dest_sc: stop.dest_sc, dest_tc: stop.dest_tc, bound: 'I', orig_en: stop.name_en , orig_sc: stop.name_sc, orig_tc: stop.name_tc, service_type: stop.service_type}}></StopRoute>
+                                <div style={{flexShrink: 0}}>
                                 {edit ? 
                                     <div className="homepage-edit-menu">
                                         <button className="homepage-edit-btn" disabled={index < 1} onClick={()=>editETA("up", index)}><b>▲</b></button>
@@ -263,6 +264,7 @@ const HomePage = () => {
                                 :
                                     <p>{time == "0" ? t('comingSoon') : <>{time} {t('mins')}</>}</p>
                                 }
+                                </div>
                             </div>
                         }
                     })} 

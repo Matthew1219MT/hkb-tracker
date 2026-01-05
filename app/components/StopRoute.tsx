@@ -15,7 +15,7 @@ const StopRoute = ({ route }: props) => {
     return <div className="stop-route-container">
         {route.service_type === '2' ? 
             <div className="stop-route-route-special">
-                {route.route} 
+                {route.route}
                 <br></br>
                 <div style={{fontSize: 'small'}}>{t('special')}</div>
             </div> 
