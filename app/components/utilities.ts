@@ -1,15 +1,15 @@
 'use client'
-import { useEffect, useState } from "react";
 import { StopETA, LocalStorageStop } from "./types";
-import i18n from "../i18n";
-import { useTranslation } from "react-i18next";
 
+//Base URL for etabus API
 export const BaseUrl: string = "https://data.etabus.gov.hk/";
 
+//Remove bracketed text from a string
 export function removeBracketed(text: string): string {
   return text.replace(/\([^)]*\)/g, '').trim();
 }
 
+//Calculate difference in minutes from now to the given ISO string
 export const diffInMinutesFromNow = (isoString: string): string | number => {
     const future = new Date(isoString);
     const now = new Date();
@@ -18,6 +18,7 @@ export const diffInMinutesFromNow = (isoString: string): string | number => {
     return diffMinutes;
 }
 
+//Fetch ETA for a given stop
 export const getStopETA = async (stop: LocalStorageStop) => {
     const url: string = `${BaseUrl}v1/transport/kmb/eta/${stop.stop}/${stop.route}/${stop.service_type}`;
     const response = await fetch(url, { method: "get" });
@@ -37,6 +38,7 @@ export const getStopETA = async (stop: LocalStorageStop) => {
     }
 }
 
+//Get stop list from local storage
 export const getStopList = (): LocalStorageStop[] => {
     if (typeof window === 'undefined') {
         return [];
@@ -46,6 +48,7 @@ export const getStopList = (): LocalStorageStop[] => {
     return stop_list;
 }
 
+//Add stop to local storage
 export const addStop = (add_stop: LocalStorageStop) => {
     const stop_list: LocalStorageStop[] = getStopList();
     const exist: boolean = stop_list.some((stop) => stop.stop === add_stop.stop && stop.route === add_stop.route && stop.service_type === add_stop.service_type);

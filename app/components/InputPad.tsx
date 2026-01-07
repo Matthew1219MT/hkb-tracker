@@ -11,18 +11,22 @@ const InputPad: React.FC<props> = ({availableChr, updateInput}) => {
 
     const { t, i18n } = useTranslation();
 
+    //Ordered numpad layout
     const NumPad: number[] = [7, 8, 9, 4, 5, 6, 1, 2, 3];
 
+    //Event hanlder for numpad input
     const onClickHandler = (value: string) =>{ 
         updateInput(prev => {
             return prev + value;
         })
     }
 
+    //Event handler for clear button
     const clearHandler = () => {
         updateInput("");
     }
 
+    //Event handler for delete button
     const deleteHandler = () => {
         updateInput(prev => {
             return prev.slice(0, -1); 

@@ -15,6 +15,7 @@ const Setting: React.FC<Props> = ({ settingConfig, setSettingConfig, clearSettin
 
     const { t, i18n } = useTranslation();
 
+    //Event listener for lanugauge change
     const languageChangeListener = (e: ChangeEvent<HTMLSelectElement> ) => {
         setSettingConfig(prev => ({...prev, language: e.target.value} as Settings));
     }

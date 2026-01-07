@@ -35,6 +35,7 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
 
     const [renderStopList, setRenderStopList] = useState<boolean>(false);
 
+    //Method to update available route and characters on num pad
     const updateAvailableRouteAndChr = (input_route: string) => {
         const available_route: Route[] = [];
         const available_chr: string[] = [];
@@ -61,20 +62,21 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
     }
 
     //We assume the route_list is pre-sorted from the API
-    const getAvailableRouteAndChr = (fetched_route_list: Route[]): string[] => {
-        const unique_route_list: string[] = [];
-        fetched_route_list.forEach((route, index) => {
-            if (index === 0) {
-                unique_route_list.push(route.route);
-            } else {
-                if (route.route !== unique_route_list[unique_route_list.length - 1]) {
-                    unique_route_list.push(route.route);
-                }
-            }
-        })
-        return unique_route_list;
-    }
+    // const getAvailableRouteAndChr = (fetched_route_list: Route[]): string[] => {
+    //     const unique_route_list: string[] = [];
+    //     fetched_route_list.forEach((route, index) => {
+    //         if (index === 0) {
+    //             unique_route_list.push(route.route);
+    //         } else {
+    //             if (route.route !== unique_route_list[unique_route_list.length - 1]) {
+    //                 unique_route_list.push(route.route);
+    //             }
+    //         }
+    //     })
+    //     return unique_route_list;
+    // }
 
+    //Method for getting list of routes
     const getRouteList = async () => {
         const route_list_url: string = BaseUrl + "v1/transport/kmb/route/";
         fetch(route_list_url, { method: "get" })
@@ -97,12 +99,14 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
             })
     }
 
+    //Method for getting stop list for a route
     const getStopList = async (route: Route) => {
         setGettingStopList(true);
         setSelectedRoute(route);
         const route_name: string = route.route;
         const route_direction: string = route.bound === "I" ? "inbound" : "outbound";
         const route_service_type: string = route.service_type;
+        //Fetch route stop list
         const stop_list_url: string = `${BaseUrl}v1/transport/kmb/route-stop/${route_name}/${route_direction}/${route_service_type}`;
         fetch(stop_list_url, { method: "get" })
             .then((response) => {
@@ -116,13 +120,13 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
                 const unique_stops = Array.from(
                     new Map(route_stop_list.map(item => [item.stop, item])).values()
                 );
-                console.log(unique_stops);
                 let promises: Promise<Response>[] = [];
                 unique_stops.forEach((stop: RouteStop) => {
                     const id = stop.stop;
                     const stop_url: string = `${BaseUrl}v1/transport/kmb/stop/${id}`;
                     promises.push(fetch(stop_url, { method: "get" }));
                 });
+                //Fetch all stop details
                 Promise.all(promises)
                 .then((responses) => {
                     // Create an array of promises for json parsing
@@ -138,17 +142,13 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
                     return Promise.all(jsonPromises);
                 })
                 .then((dataArray) => {
-                    // Now all data is available
                     const stop_list: Stop[] = dataArray
                         .filter((data) => data !== null)
                         .map((data: any) => data.data as Stop);
-                
-
                     // Sort based on route_stop_list order
                     const orderMap = new Map(
                         unique_stops.map((stop, index) => [stop.stop, index])
                     );
-                    
                     const sortedStopList = stop_list.sort((a, b) => {
                         const index_a = orderMap.get(a.stop) ?? Infinity;
                         const index_b = orderMap.get(b.stop) ?? Infinity;
@@ -172,18 +172,16 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
 
     useEffect(() => {
         updateAvailableRouteAndChr(inputRoute);
-        console.log(routeList);
     }, [routeList, inputRoute])
 
     useEffect(() => {
         if (stopList.length === 0) {
             setGettingStopList(false);
         }
-        console.log(stopList);
     }, [stopList]);
 
     return <div className={`stop-searcher-container`}>
-        <div className={`stop-searcher-slide-panel ${stopList.length > 0 ? 'active' : ''}`}>
+        <div className={`stop-searcher-slide-panel ${renderStopList ? 'active' : ''}`}>
             {selectedRoute && <StopDisplay stopList={stopList} setStopList={setStopList} selectedRoute={selectedRoute} setRenderStopList={setRenderStopList}/>}
         </div>
         <div className="stop-searcher-section-1">
