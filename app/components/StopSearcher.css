@@ -108,3 +108,22 @@
     background-color: grey;
     color: darkgrey;
 }
+
+/* Initial state - hidden below viewport */
+.stop-searcher-slide-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: var(--main-05);
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Active state - visible */
+.stop-searcher-slide-panel.active {
+  transform: translateY(0);
+}

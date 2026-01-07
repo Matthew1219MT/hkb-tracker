@@ -12,9 +12,10 @@ type props = {
     stopList: Stop[]
     setStopList: React.Dispatch<React.SetStateAction<Stop[]>>
     selectedRoute: Route,
+    setRenderStopList: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) => {
+const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute, setRenderStopList}) => {
 
     const { t, i18n } = useTranslation();
 
@@ -92,6 +93,11 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         }
     }
 
+    const returnListener = () => {
+        setStopList([]);
+        setRenderStopList(false);
+    }
+
     useEffect(() => {
         const interval = setInterval(() => {
             const now = new Date();
@@ -120,7 +126,7 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
         <div className="stop-display-container">
             {renderConfirm && <Confirm text={confirmText} fuc={confirmFuc} confirm={confirm} setConfirm={setConfirm}/>}
             <div className="stop-display-section-1">
-                <button className="stop-display-return-btn" onClick={() => setStopList([])}>{t('return')}</button>
+                <button className="stop-display-return-btn" onClick={() => returnListener()}>{t('return')}</button>
             </div>
             <div className="stop-display-section-2">
                 {stopList.map((stop, index) => (

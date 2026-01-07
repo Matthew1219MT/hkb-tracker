@@ -33,6 +33,8 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
 
     const [availableChr, setAvailableChr] = useState<string[]>([]);
 
+    const [renderStopList, setRenderStopList] = useState<boolean>(false);
+
     const updateAvailableRouteAndChr = (input_route: string) => {
         const available_route: Route[] = [];
         const available_chr: string[] = [];
@@ -152,9 +154,8 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
                         const index_b = orderMap.get(b.stop) ?? Infinity;
                         return index_a - index_b;
                     });
-                    
-                    console.log(sortedStopList);
                     setStopList(sortedStopList);
+                    setRenderStopList(true);
                 })
                 .catch((e) => {
                     console.log(e);
@@ -182,29 +183,28 @@ const StopSearcher: React.FC<props> = ({ search, setSearch }) => {
     }, [stopList]);
 
     return <div className={`stop-searcher-container`}>
-        {
-            stopList.length > 0 ? <>{selectedRoute && <StopDisplay stopList={stopList} setStopList={setStopList} selectedRoute={selectedRoute} />}</> :
-                <>
-                    <div className="stop-searcher-section-1">
-                        <div className="stop-searcher-s1-container">
-                            <button className="stop-searcher-exit-btn" onClick={() => setSearch(false)}>{t('return')}</button>
-                            <div className="stop-searcher-search-number">{inputRoute}</div>
-                        </div>
-                    </div>
-                    <div className="stop-searcher-section-2">
-                        <div className="stop-searcher-s2-container">
-                            {availableRoute.length > 0 && availableRoute.map((route, index) => {
-                                return <button className="stop-searcher-route-btn" key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>
-                                    <StopRoute route={route}/>
-                                </button>
-                            })}
-                        </div>
-                    </div>
-                    <div className="stop-searcher-section-3">
-                        <InputPad availableChr={availableChr} updateInput={setInputRoute} />
-                    </div>
-                </>
-        }</div>;
+        <div className={`stop-searcher-slide-panel ${stopList.length > 0 ? 'active' : ''}`}>
+            {selectedRoute && <StopDisplay stopList={stopList} setStopList={setStopList} selectedRoute={selectedRoute} setRenderStopList={setRenderStopList}/>}
+        </div>
+        <div className="stop-searcher-section-1">
+            <div className="stop-searcher-s1-container">
+                <button className="stop-searcher-exit-btn" onClick={() => setSearch(false)}>{t('return')}</button>
+                <div className="stop-searcher-search-number">{inputRoute}</div>
+            </div>
+        </div>
+        <div className="stop-searcher-section-2">
+            <div className="stop-searcher-s2-container">
+                {availableRoute.length > 0 && availableRoute.map((route, index) => {
+                    return <button className="stop-searcher-route-btn" key={index} onClick={() => { getStopList(route) }} disabled={gettingStopList}>
+                        <StopRoute route={route}/>
+                    </button>
+                })}
+            </div>
+        </div>
+        <div className="stop-searcher-section-3">
+            <InputPad availableChr={availableChr} updateInput={setInputRoute} />
+        </div>
+    </div>;
 }
 
 export default StopSearcher;
