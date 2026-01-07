@@ -29,6 +29,7 @@ const Setting: React.FC<Props> = ({ settingConfig, setSettingConfig, clearSettin
                 <label>{t('language')}:</label>
                 <select defaultValue={settingConfig.language} onChange={languageChangeListener}>
                     <option value="tc">繁體中文</option>
+                    <option value="sc">簡體中文</option>
                     <option value="en">English</option>
                 </select>
             </div>
@@ -40,6 +41,12 @@ const Setting: React.FC<Props> = ({ settingConfig, setSettingConfig, clearSettin
             <div className="setting-config">
                 <label>{t('clearSetting')}</label>
                 <button className="setting-delete-btn" onClick={clearSettings}>{t('clear')}</button>
+            </div>
+            <hr className="setting-solid"/>
+            <div className="setting-center-text">
+                <h1>{t('intro_1')}</h1>
+                <h2>{t('intro_2')}</h2>
+                <h3>{t('intro_3')}<a href="https://github.com/Matthew1219MT/hkb-tracker">Github</a></h3>
             </div>
         </div>
         :

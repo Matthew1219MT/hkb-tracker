@@ -24,9 +24,9 @@ const StopRoute = ({ route }: props) => {
         }
         
         <div className="stop-route-detail">
-            {t('to')} {i18n.language === 'tc' ? route.dest_tc : route.dest_en}
+            {t('to')} {i18n.language === 'tc' ? route.dest_tc : (i18n.language === 'sc' ? route.dest_sc : route.dest_en)}
             <br></br>
-            {i18n.language === 'tc' ? route.orig_tc : route.orig_en} 
+            {i18n.language === 'tc' ? route.orig_tc : (i18n.language === 'sc' ? route.orig_sc : route.orig_en)} 
         </div>
     </div>   
 }

@@ -127,7 +127,7 @@ const StopDisplay: React.FC<props> = ({stopList, setStopList, selectedRoute}) =>
                     <div key={index}>
                         <div className="stop-display-stop">
                             <div className="stop-display-stop-text">
-                                {removeBracketed(i18n.language === 'tc' ? stop.name_tc : stop.name_en)}
+                                {removeBracketed(i18n.language === 'tc' ? stop.name_tc : (i18n.language === 'sc' ? stop.name_sc : stop.name_en))}
                             </div>
                             <div className="stop-display-btn-list">
                                 <button className="stop-display-btn" onClick={()=>{addStopListener(stop)}}>+</button>
